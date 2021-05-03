@@ -32,6 +32,7 @@ function NotFound() {
           <Link
             to={`/static/asset/${movie.id}`}
             style={{ textDecoration: "none" }}
+            key={`id_${movie.id}`}
           >
             <Card>
               <img

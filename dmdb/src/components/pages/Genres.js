@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardPhoto from "../card/CardPhoto";
 import Loader from "react-loader-spinner";
 import { Title } from "../styles/GridStyles";
 import { CategoryContainer, Card } from "../styles/GenreStyles";
 
-export const GenreContext=createContext();
 
 function Genres() {
   useEffect(() => {
@@ -24,7 +23,6 @@ function Genres() {
 
   return (
     <div>
-      <GenreContext></GenreContext>
       {isLoading ? (
         <Loader type="ThreeDots" color="#FF1D36" height="100" width="100" />
       ) : null}

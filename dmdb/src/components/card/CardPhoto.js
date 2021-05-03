@@ -8,7 +8,6 @@ function CardPhoto({ id, name }) {
       );
       const photo_data = await photo.json();
       setPhoto(photo_data.data.results);
-      console.log(photo_data.data.results);
     };
     fetchPhoto();
   }, []);

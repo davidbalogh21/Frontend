@@ -10,6 +10,7 @@ const NavLinksContainer = styled.div`
   height: 100%;
   display: flex;
   align-items: center;
+  background-color: #fff;
 `;
 
 const LinksWrapper = styled.ul`
@@ -59,8 +60,8 @@ export function MobileNavLinks() {
         <LinksWrapper>
         <Marginer/>
           {routes.map((route) => (
-          <LinkItem>
-          <NavLink style = {navStyle} exact to={route.route}>{route.label}</NavLink>
+          <LinkItem key={`id_${route.route}`}>
+          <NavLink style = {navStyle} exact to={route.route} key={`id_${route.route}`}>{route.label}</NavLink>
           </LinkItem>
         ))}
           <Marginer />

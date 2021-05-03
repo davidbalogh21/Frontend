@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import Modal from "../modal/Modal";
+import Loader from "react-loader-spinner";
+
 import {
   Title,
   Date,
@@ -15,9 +17,6 @@ import {
   ImportantText,
 } from "../../components/styles/AssetStyles";
 
-
-
-
 function AssetDetails({ match }) {
   useEffect(() => {
     const fetchMovies = async () => {
@@ -26,20 +25,34 @@ function AssetDetails({ match }) {
       );
       const movie = await data.json();
       setMovie(movie.data);
+      setVideo(movie.data.videos.results);
       setCast(movie.data.credits.cast);
       setCompanies(movie.data.production_companies);
+      setLoading(false);
     };
     fetchMovies();
   }, []);
 
   const [movie, setMovie] = useState({});
   const [cast, setCast] = useState([]);
+  const [video, setVideo] = useState([]);
   const [companies, setCompanies] = useState([]);
-  // const [loading, setLoading] = useState(false);
-  // const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   return (
     <div>
+      {loading ? (
+        <Loader
+          type="ThreeDots"
+          color="#FF1D36"
+          height="100"
+          width="100"
+          text-align="center"
+          margin="auto"
+          vertical-align="middle"
+        />
+      ) : null}
       <Box>
         <Poster
           src={`https://www.themoviedb.org/t/p/original/${movie.poster_path}`}
@@ -55,11 +68,22 @@ function AssetDetails({ match }) {
           </Date>
           <Button
             buttonColor="#F5C519"
-            href={`https://www.imdb.com/title/${movie.imdb_id}`} target="blank"
+            href={`https://www.imdb.com/title/${movie.imdb_id}`}
+            target="blank"
           >
             IMDB
           </Button>
-          <Button buttonColor="#FF1F00">Youtube</Button>
+          <Button
+            buttonColor="#FF1F00"
+            onClick={() => setModalIsOpen(!modalIsOpen)}
+          >
+            Youtube
+          </Button>
+          <Modal
+            onClose={() => setModalIsOpen(false)}
+            youtube={video}
+            show={modalIsOpen}
+          ></Modal>
         </TextBox>
       </Box>
 
@@ -67,11 +91,15 @@ function AssetDetails({ match }) {
         <ImportantText>Cast: </ImportantText>
 
         {cast.slice(0, 10).map((actors) => (
-          <div>
+          <div key={`id_${actors.id}`}>
             <ActorName>{actors.name}</ActorName>
+            {actors.profile_path ? (
               <ActorPhoto
                 src={`https://www.themoviedb.org/t/p/original/${actors.profile_path}`}
               />
+            ) : (
+              <ActorPhoto src="https://vulcanoilco.com/wp-content/uploads/person-placeholder.png" />
+            )}
           </div>
         ))}
       </ActorBox>
@@ -80,11 +108,15 @@ function AssetDetails({ match }) {
         <ImportantText>Production companies: </ImportantText>
 
         {companies.map((company) => (
-          <div>
+          <div key={`id_${company.id}`}>
             <ActorName>{company.name}</ActorName>
-            <CompanyPhoto
-              src={`https://www.themoviedb.org/t/p/original/${company.logo_path}`}
-            />
+            {company.logo_path ? (
+              <CompanyPhoto
+                src={`https://www.themoviedb.org/t/p/original/${company.logo_path}`}
+              />
+            ) : (
+              <CompanyPhoto src="https://wiki.dave.eu/images/4/47/Placeholder.png" />
+            )}
           </div>
         ))}
       </ActorBox>

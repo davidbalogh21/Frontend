@@ -6,7 +6,7 @@ const AccessibilityContainer = styled.div`
   margin-left: 10px;
 `;
 
-const LoginButton = styled.button`
+const Button = styled.a`
   border: 0;
   outline: 0;
   padding: 8px 1em;
@@ -18,6 +18,8 @@ const LoginButton = styled.button`
   border: 1px solid #FF1D36;
   transition: all 240ms ease-in-out;
   cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
   &:hover {
     color: #fff;
     background-color: #FF1D36;
@@ -28,7 +30,7 @@ const LoginButton = styled.button`
 export function Accessibility() {
   return (
     <AccessibilityContainer>
-      <LoginButton>3SS</LoginButton>
+      <Button href="https://www.3ss.tv/" target="blank">3SS</Button>
     </AccessibilityContainer>
   );
 }

@@ -90,6 +90,7 @@ export const Button = styled.a`
   border: 2px solid black;
   text-decoration: none;
   text-align: center;
+  cursor: pointer;
   background-color: ${(props) => props.buttonColor};
 `;
 

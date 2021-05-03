@@ -1,7 +1,7 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
-import {MenuContext } from "../contexts/MenuContext"
+import { MenuContext } from "../contexts/MenuContext";
 
 const NavLinksContainer = styled.div`
   height: 100%;
@@ -29,10 +29,9 @@ const LinkItem = styled.li`
   border-top: 2px solid transparent;
   transition: all 220ms ease-in-out;
   &:hover {
-    border-top: 2px solid #FF1D36;
+    border-top: 2px solid #ff1d36;
   }
 `;
-
 
 const navStyle = {
   textTransform: "uppercase",
@@ -42,16 +41,20 @@ const navStyle = {
 };
 
 export function NavLinks() {
-
   const routes = useContext(MenuContext);
-  console.log(routes);
 
   return (
     <NavLinksContainer>
       <LinksWrapper>
         {routes.map((route) => (
-          <LinkItem>
-          <NavLink style = {navStyle} exact to={route.route} activeOnlyWhenExact>{route.label}</NavLink>
+          <LinkItem key={`id${route.route}`}>
+            <NavLink
+              style={navStyle}
+              exact
+              to={route.route}
+            >
+              {route.label}
+            </NavLink>
           </LinkItem>
         ))}
       </LinksWrapper>

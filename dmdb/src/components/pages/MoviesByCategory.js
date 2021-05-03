@@ -3,25 +3,42 @@ import { Link } from "react-router-dom";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
 import Loader from "react-loader-spinner";
 import { CategoryContainer, Card } from "../styles/GridStyles";
+import { Title } from "../styles/AssetStyles";
+
+const PAGE_NUMBER = 1;
 
 function MoviesByCategory({ match }) {
+  const [pageNum, setPageNum] = useState(PAGE_NUMBER);
+
   useEffect(() => {
-    const fetchCategory = async () => {
+
+    const fetchCategory = async (pageNum) => {
       const data = await fetch(
-        `https://video-proxy.3rdy.tv/api/vod/category/${match.params.id}/assets/?page=1&size=20`
+        `https://video-proxy.3rdy.tv/api/vod/category/${match.params.id}/assets/?page=${pageNum}&size=20`
       );
       const category = await data.json();
-      setCurrentCategory(category.data.results);
+      setCurrentCategory([...currentCategory, ...category.data.results]);
       setIsLoading(false);
     };
-    fetchCategory();
-  }, []);
+
+    fetchCategory(pageNum);
+  }, [pageNum]);
+
+  window.onscroll = function () {
+    if (
+      Math.ceil(window.innerHeight + window.scrollY) >=
+      document.documentElement.scrollHeight
+    ) {
+      setPageNum(pageNum + 1);
+    }
+  };
+
+  
 
   const [isLoading, setIsLoading] = useState(true);
 
   function getColorOfRating(number) {
     if (number <= 5.5) {
-      console.log(number);
       return "#B22222";
     } else if (number > 5.5 && number < 7.5) {
       return "#999900";
@@ -45,16 +62,19 @@ function MoviesByCategory({ match }) {
           vertical-align="middle"
         />
       ) : null}
-      <CategoryContainer repeatValue="18vw">
+      <Title>{match.params.name}</Title>
+      <CategoryContainer repeatValue="18vw" id="category">
         {currentCategory.map((movie) => (
           <Link
             to={`/static/asset/${movie.id}`}
             style={{ textDecoration: "none" }}
+            key={`id_${movie.title}`}
           >
             <Card>
               <img
                 src={`https://www.themoviedb.org/t/p/original/${movie.poster_path}`}
-                alt = {`movieposter_${movie.id}`} />
+                alt={`movieposter_${movie.id}`}
+              />
               <h2>{movie.title}</h2>
               <h3 style={{ color: getColorOfRating(movie.vote_average) }}>
                 <GradeRoundedIcon

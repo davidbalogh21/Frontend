@@ -25,8 +25,9 @@ function Popular() {
           <Link
             to={`/static/asset/${movie.id}`}
             style={{ textDecoration: "none" }}
+            key={`id_${movie.id}`}
           >
-            <Card>
+            <Card key={`id_${movie.id}`}>
               <img
                 src={`https://www.themoviedb.org/t/p/original/${movie.poster_path}`}
               alt = {`movieposter_${movie.id}`}/>

@@ -7,7 +7,6 @@ import { NavLinks } from "./navLinks";
 import { DeviceSize } from "../devices";
 import { MobileNavLinks } from "./mobileNavLinks";
 
-
 const NavbarContainer = styled.div`
   width: 100%;
   height: 8.5vh;
@@ -19,21 +18,24 @@ const NavbarContainer = styled.div`
 `;
 
 const LeftSection = styled.div`
+  flex: 5%;
   display: flex;
 `;
 
 const MiddleSection = styled.div`
+  flex: 90%;
   display: flex;
-  flex: 2;
   height: 100%;
   justify-content: center;
 `;
 
 const RightSection = styled.div`
+  flex: 5%;
   display: flex;
 `;
 
 export function Navbar() {
+  
   const isMobile = useMediaQuery({ maxWidth: DeviceSize.mobile });
 
   return (

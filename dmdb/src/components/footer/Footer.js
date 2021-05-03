@@ -7,8 +7,7 @@ import {
   FooterLink,
   Heading,
 } from "./FooterStyles";
-import {FaFacebookF, FaGithub, FaInstagram} from 'react-icons/fa'
-import {MdEmail} from 'react-icons/md'
+import {FaFacebookF, FaGithub, FaInstagram, FaLinkedin} from 'react-icons/fa'
 const Footer = () => {
   return (
     <Box>
@@ -40,10 +39,10 @@ const Footer = () => {
                   Github
                 </span>
             </FooterLink>
-            <FooterLink href="mailto:david_balogh21@yahoo.com"  target="blank">
-              <MdEmail/>
+            <FooterLink href="https://www.linkedin.com/in/david-balogh-19b299211/" target="blank" >
+              <FaLinkedin/>
                 <span style={{ marginLeft: "10px" }}>
-                  Email
+                  LinkedIn
                 </span>
             </FooterLink>
           </Column>
@@ -52,7 +51,7 @@ const Footer = () => {
           <FooterLink href = "https://3ready.tv/">Products</FooterLink>
           <FooterLink href = "https://3ready.tv/">Services</FooterLink>
           <FooterLink href = "https://3ready.tv/">Contact</FooterLink>
-          <FooterLink href = "https://3ready.tv/">Careers</FooterLink>
+          <FooterLink href = "https://3ready.tv/">https://www.3ss.tv/careers</FooterLink>
           </Column>
         </Row>
       </Container>
