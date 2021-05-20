@@ -21,7 +21,7 @@
     "react-modal-video": "^1.2.6",
     "react-responsive": "^8.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "4.0.3",
+    "react-scripts": "^4.0.3",
     "react-youtube-modal": "^1.1.1",
     "sass": "^1.32.12",
     "styled-components": "^5.2.3",
