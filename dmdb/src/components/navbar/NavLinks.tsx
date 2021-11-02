@@ -1,31 +1,27 @@
-import React, { useContext } from "react";
-import { MenuContext } from "../contexts/MenuContext";
+import React from 'react';
 import {
-  NavLinksContainer,
-  LinksWrapper,
-  LinkItem,
-  LinkStyle,
-} from "../styles/LinkStyles";
-
-interface MenuItems {
-  route: string;
-  label: string;
-}
+    NavLinksContainer,
+    LinksWrapper,
+    LinkItem,
+    LinkStyle,
+} from '../styles/LinkStyles';
+import getMenuData from '../../utils/fnMenuData';
+import {RouteInfo} from '../../types/AssetTypes';
 
 export function NavLinks() {
-  const routes = useContext<MenuItems[]>(MenuContext);
+    const routes: RouteInfo[] = getMenuData();
 
-  return (
-    <NavLinksContainer>
-      <LinksWrapper>
-        {routes.map((route) => (
-          <LinkItem key={`id${route.route}`}>
-            <LinkStyle exact to={route.route}>
-              {route.label}
-            </LinkStyle>
-          </LinkItem>
-        ))}
-      </LinksWrapper>
-    </NavLinksContainer>
-  );
+    return (
+        <NavLinksContainer>
+            <LinksWrapper>
+                {routes.map((route) => (
+                    <LinkItem key={`id${route.route}`}>
+                        <LinkStyle exact to={route.route}>
+                            {route.label}
+                        </LinkStyle>
+                    </LinkItem>
+                ))}
+            </LinksWrapper>
+        </NavLinksContainer>
+    );
 }
