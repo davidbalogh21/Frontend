@@ -20,7 +20,7 @@
     "react-modal": "^3.13.1",
     "react-modal-video": "^1.2.6",
     "react-responsive": "^8.2.0",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^5.3.0",
     "react-scripts": "^4.0.3",
     "react-youtube-modal": "^1.1.1",
     "sass": "^1.32.12",
@@ -50,5 +50,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.3.2",
+    "@types/styled-components": "^5.1.15"
   }
 }
