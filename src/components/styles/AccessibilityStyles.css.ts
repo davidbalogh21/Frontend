@@ -7,13 +7,13 @@ export const AccessibilityContainer = styled.div`
 
 export const Button = styled.a`
   outline: 0;
-  padding: 8px 1em;
+  padding: 0.4rem 0.8rem;
   color: #222;
   font-size: 13px;
   font-weight: 600;
-  border-radius: 20px;
+  border-radius: 3rem;
   background-color: transparent;
-  border: 1px solid #FF1D36;
+  border: 0.18rem solid #FF1D36;
   transition: all 240ms ease-in-out;
   cursor: pointer;
   text-decoration: none;

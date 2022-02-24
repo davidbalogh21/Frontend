@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import Carousel from "react-multi-carousel";
 
 export const BackgroundContainer = styled.div`
   position: relative;
@@ -54,7 +54,10 @@ export const Card = styled.div`
   }
 `;
 
-export const CarouselWrapper = styled.div`
-  width: 80vw;
-  margin: 0 auto;
+export const CategoryTitle = styled.h1`
+  text-decoration: underline;
+  text-underline: #FF1D36;
+  color: black;
+  margin-left: 5rem;
 `
+

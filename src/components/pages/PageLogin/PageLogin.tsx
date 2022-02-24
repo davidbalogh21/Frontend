@@ -1,10 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import {Link, Redirect} from 'react-router-dom';
 import {RegisterWrapper, RegisterSubtext, RegisterTitle, RegisterForm} from "../PageRegister/PageRegister.css";
-import {PageWrapper} from './PageLogin.css';
+import {
+	Form, FormLinkText,
+	FormButton,
+	FormInput,
+	FormPicture,
+	FormPictureWrapper,
+	FormTitle,
+	InputWrapper,
+	PageWrapper, FormLink, ErrorMessage
+} from './PageLogin.css';
 import {Button} from "@material-ui/core";
 import axios from "axios";
 import {History} from "history";
+import MovieLogo from "../../../assets/images/logo.png";
 
 type PageLoginPropsType = {
 	history: History,
@@ -15,11 +25,11 @@ export const PageLogin: React.FC<PageLoginPropsType> = ({history}) => {
 	const [password, setPassword] = useState<string>('');
 	const [error, setError] = useState<string>('');
 
-	useEffect(()=>{
+	/*useEffect(()=>{
 		if (localStorage.getItem("authToken")) {
 			history.push("/");
 		}
-	}, [history]);
+	}, [history]);*/
 
 	const onLogin = async (e: any) => {
 		e.preventDefault();
@@ -45,24 +55,26 @@ export const PageLogin: React.FC<PageLoginPropsType> = ({history}) => {
 
 	return (
 		<PageWrapper>
-			<RegisterForm onSubmit={onLogin}>
-				<RegisterTitle>
+			<Form onSubmit={onLogin}>
+				<FormPictureWrapper>
+					<FormPicture src={MovieLogo} alt="Movie logo"/>
+				</FormPictureWrapper>
+				<FormTitle>
 					Login
-				</RegisterTitle>
-				{error && <span>{error}</span>}
-				<label htmlFor={"email"}>Email: </label>
-				<input type={"email"} required id={"email"} placeholder={"Enter email"} value={email}
+				</FormTitle>
+				{error && <ErrorMessage>{error}</ErrorMessage>}
+				<InputWrapper>
+				<FormInput type={"email"} required id={"email"} placeholder={"Email"} value={email}
 					   onChange={(e) => setEmail(e.target.value)}/>
 
-				<label htmlFor={"password"}>Password: </label>
-				<input type={"password"} required id={"password"} placeholder={"Enter password"} value={password}
+				<FormInput type={"password"} required id={"password"} placeholder={"Password"} value={password}
 					   onChange={(e) => setPassword(e.target.value)}/>
 
-				<Button type={"submit"}>Register</Button>
-
-				<RegisterSubtext>Don't have an account? <Link to={"/register"}>Register</Link></RegisterSubtext>
-				<RegisterSubtext>Forgot password? <Link to={"/forgot"}>Reset password</Link></RegisterSubtext>
-			</RegisterForm>
+				<FormButton type={"submit"}>LOGIN</FormButton>
+				</InputWrapper>
+				<FormLinkText>Don't have an account? <FormLink to={"/register"}>Register</FormLink></FormLinkText>
+				<FormLinkText><FormLink to={"/forgot"}>Forgot password? </FormLink></FormLinkText>
+			</Form>
 		</PageWrapper>
 	)
 };

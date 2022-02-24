@@ -4,6 +4,19 @@ import {RegisterWrapper, RegisterSubtext, RegisterTitle, RegisterForm} from "./P
 import {Button} from "@material-ui/core";
 import axios from "axios";
 import {History} from "history";
+import MovieLogo from "../../../assets/images/logo.png";
+import {
+    Form,
+    FormLinkText,
+    FormButton,
+    FormInput,
+    FormPicture,
+    FormPictureWrapper,
+    FormTitle,
+    InputWrapper,
+    PageWrapper,
+    FormLink, ErrorMessage
+} from '../PageLogin/PageLogin.css';
 
 type PageRegisterPropsType = {
     history: History,
@@ -16,11 +29,11 @@ export const PageRegister: React.FC<PageRegisterPropsType> = ({history}) => {
     const [confirmPassword, setConfirmPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
 
-    useEffect(()=>{
+    /*useEffect(()=>{
         if (localStorage.getItem("authToken")) {
             history.push("/");
         }
-    }, [history]);
+    }, [history]);*/
 
     const onRegister = async (e: any) => {
         e.preventDefault();
@@ -56,31 +69,31 @@ export const PageRegister: React.FC<PageRegisterPropsType> = ({history}) => {
     };
 
     return (
-        <RegisterWrapper>
-            <RegisterForm onSubmit={onRegister}>
-                <RegisterTitle>
+        <PageWrapper>
+            <Form onSubmit={onRegister}>
+                <FormPictureWrapper>
+                    <FormPicture src={MovieLogo} alt="Movie logo"/>
+                </FormPictureWrapper>
+                <FormTitle>
                     Register
-                </RegisterTitle>
-                {error && <span>{error}</span>}
-                <label htmlFor={"name"}>Username: </label>
-                <input type={"text"} required id={"name"} placeholder={"Enter username"} value={username}
+                </FormTitle>
+                {error && <ErrorMessage>{error}</ErrorMessage>}
+                <InputWrapper>
+                <FormInput type={"text"} required id={"name"} placeholder={"Enter username"} value={username}
                        onChange={(e) => setUsername(e.target.value)}/>
 
-                <label htmlFor={"email"}>Email: </label>
-                <input type={"email"} required id={"email"} placeholder={"Enter email"} value={email}
+                <FormInput type={"email"} required id={"email"} placeholder={"Enter email"} value={email}
                        onChange={(e) => setEmail(e.target.value)}/>
 
-                <label htmlFor={"password"}>Password: </label>
-                <input type={"password"} required id={"password"} placeholder={"Enter password"} value={password}
+                <FormInput type={"password"} required id={"password"} placeholder={"Enter password"} value={password}
                        onChange={(e) => setPassword(e.target.value)}/>
 
-                <label htmlFor={"confirm-password"}>Password: </label>
-                <input type={"password"} required id={"confirm-password"} placeholder={"Confirm password"}
+                <FormInput type={"password"} required id={"confirm-password"} placeholder={"Confirm password"}
                        value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
-                <Button type={"submit"}>Register</Button>
-
-                <RegisterSubtext>Already have an account? <Link to={"/login"}>Login</Link></RegisterSubtext>
-            </RegisterForm>
-        </RegisterWrapper>
+                <FormButton type={"submit"}>REGISTER</FormButton>
+                </InputWrapper>
+                <FormLinkText>Already have an account? <FormLink to={"/login"}>Login</FormLink></FormLinkText>
+            </Form>
+        </PageWrapper>
     )
 };

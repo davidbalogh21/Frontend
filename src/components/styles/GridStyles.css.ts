@@ -1,40 +1,52 @@
 import styled from 'styled-components';
 
 
-export const CategoryContainer = styled.div<{ repeatValue?: string }>`
-  width: 80vw;
+export const CardWrapper = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, 23vw);
-  place-content: center;
-  gap: 2rem;
-  margin: 5vh 10vw;
-  repeat(auto-fill, 18vw);
+  margin: 5rem 7.5rem;
+  grid-template-columns: repeat(auto-fill, 22.5rem);
+  justify-content: space-around;
+  grid-gap: 2rem;
+  flex-grow: 1;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(auto-fill, 17.5rem);
+  }
 `;
 
 export const Card = styled.div`
-  height: 100%;
-  border-radius: 4px;
+  height: 45rem;
+  width: 22.5rem;
+  border-radius: 0.4rem;
   background-color: #f0f0f0;
-  box-shadow: 0 5px 10px -3px rgba(35, 35, 35, 0.6);
+  box-shadow: 0 .5rem 1rem -0.3rem rgba(35, 35, 35, 0.6);
   color: black;
   transition: 0.4s;
   position: relative;
-  padding-bottom: 20px;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
+
+  @media (min-width: 768px) {
+    width: 17.5rem;
+    height: 40rem;
+  }
 
   img {
     display: block;
     width: 100%;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
+    border-top-left-radius: 0.4rem;
+    border-top-right-radius: 0.4rem;
   }
 
   h2 {
+    width: 90%;
+    height: 10rem;
+    margin: 2rem auto;
     font-weight: 600;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     text-transform: uppercase;
-    padding-bottom: 2em;
-    line-height: 1em;
+    line-height: 1.5rem;
   }
 
   h3 {
@@ -46,7 +58,7 @@ export const Card = styled.div`
 
   &:hover {
     transition: 0.4s;
-    box-shadow: 0 5px 10px -3px rgba(165, 155, 155, 0.3);
+    box-shadow: 0 0.5rem 1rem -0.3rem rgba(165, 155, 155, 0.3);
   }
 `;
 

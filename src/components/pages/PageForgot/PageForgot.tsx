@@ -1,5 +1,16 @@
-import { useState } from "react";
+import React, {useState} from "react";
 import axios from "axios";
+import {
+    DescriptionText,
+    ErrorMessage,
+    Form, FormButton,
+    FormInput, FormLink, FormLinkText,
+    FormPicture,
+    FormPictureWrapper,
+    FormTitle,
+    InputWrapper, PageWrapper
+} from "../PageLogin/PageLogin.css";
+import MovieLogo from "../../../assets/images/logo.png";
 
 export const PageForgot = () => {
     const [email, setEmail] = useState("");
@@ -16,9 +27,9 @@ export const PageForgot = () => {
         }
 
         try {
-            const { data } = await axios.post(
+            const {data} = await axios.post(
                 "http://localhost:5000/api/auth/forgotPassword",
-                { email },
+                {email},
                 config
             );
 
@@ -33,33 +44,30 @@ export const PageForgot = () => {
     };
 
     return (
-        <div className="forgotpassword-screen">
-            <form
-                onSubmit={forgotPasswordHandler}
-                className="forgotpassword-screen__form"
-            >
-                <h3 className="forgotpassword-screen__title">Forgot Password</h3>
-                {error && <span className="error-message">{error}</span>}
+        <PageWrapper>
+            <Form onSubmit={forgotPasswordHandler}>
+                <FormPictureWrapper>
+                    <FormPicture src={MovieLogo} alt="Movie logo"/>
+                </FormPictureWrapper>
+                <FormTitle>
+                    Forgot Password
+                </FormTitle>
+                <DescriptionText>
+                    Uh oh! Looks like you forgot your password. Input your email so we can send you a password reset confirmation.
+                </DescriptionText>
+                {error && <ErrorMessage>{error}</ErrorMessage>}
                 {success && <span className="success-message">{success}</span>}
-                <div className="form-group">
-                    <p className="forgotpassword-screen__subtext">
-                        Please enter the email address you register your account with. We
-                        will send you reset password confirmation to this email
-                    </p>
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        type="email"
-                        required
-                        id="email"
-                        placeholder="Email address"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                    Send Email
-                </button>
-            </form>
-        </div>
+                <InputWrapper>
+                    <FormInput type="email"
+                               required
+                               id="email"
+                               placeholder="Email address"
+                               value={email}
+                               onChange={(e) => setEmail(e.target.value)}/>
+
+                    <FormButton type={"submit"}>SEND EMAIL</FormButton>
+                </InputWrapper>
+            </Form>
+        </PageWrapper>
     );
 };

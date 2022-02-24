@@ -1,5 +1,5 @@
 import {Navbar} from './components/components/Navbar/Navbar';
-import PageCategories from './components/pages/PageGenre/PageCategories';
+import {PageCategories} from './components/pages/PageGenre/PageCategories';
 import PageAssets from './components/pages/PageAssets/PageAssets';
 import PageAssetDetails from './components/pages/PageAssetDetails/PageAssetDetails';
 import PagePopular from './components/pages/PagePopular/PagePopular';

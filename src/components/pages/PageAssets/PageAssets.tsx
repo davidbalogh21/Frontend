@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import GradeRoundedIcon from '@material-ui/icons/GradeRounded';
-import { Card, CategoryContainer } from '../../styles/GridStyles.css';
+import { Card, CardWrapper } from '../../styles/GridStyles.css';
 import { Title } from '../PageAssetDetails/PageAssetDetailscss';
 import { RouteComponentProps } from 'react-router';
 import RatingColor from '../../../utils/fnRatingColor';
@@ -23,7 +23,7 @@ function PageAssets({ match }: RouteComponentProps<TParams>) {
 	useEffect(() => {
 		const fetchCategory = async (pageNum: number) => {
 			const data = await fetch(
-				`https://api.themoviedb.org/3/discover/movie?api_key=593c4bf64054350abc1378cb7718693e&with_genres=${match.params.id}`,
+				`https://api.themoviedb.org/3/discover/movie?api_key=593c4bf64054350abc1378cb7718693e&with_genres=${match.params.id}&page=${pageNum}`,
 			);
 			const category = await data.json();
 			setCurrentCategory([...currentCategory, ...category?.results]);
@@ -50,7 +50,7 @@ function PageAssets({ match }: RouteComponentProps<TParams>) {
 				<>loading</>
 			) : null}
 			<Title>{match.params.name}</Title>
-			<CategoryContainer id="category">
+			<CardWrapper id="category">
 				{currentCategory.map((movie) => (
 					<Link
 						to={`/static/asset/${movie.id}`}
@@ -76,7 +76,7 @@ function PageAssets({ match }: RouteComponentProps<TParams>) {
 						</Card>
 					</Link>
 				))}
-			</CategoryContainer>
+			</CardWrapper>
 		</div>
 	);
 }

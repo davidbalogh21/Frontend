@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { PopularContext } from '../../../contexts/PopularContext';
-import { Card, CategoryContainer, Title } from '../../styles/GridStyles.css';
+import { Card, CardWrapper, Title } from '../../styles/GridStyles.css';
 import GradeRoundedIcon from '@material-ui/icons/GradeRounded';
 import { Link } from 'react-router-dom';
 import RatingColor from '../../../utils/fnRatingColor';
@@ -12,7 +12,7 @@ function PagePopular() {
 	return (
 		<div>
 			<Title>Our current popular movies</Title>
-			<CategoryContainer repeatValue="23vw">
+			<CardWrapper>
 				{popular.map((movie) => (
 					<Link
 						to={`/static/asset/${movie.id}`}
@@ -37,7 +37,7 @@ function PagePopular() {
 						</Card>
 					</Link>
 				))}
-			</CategoryContainer>
+			</CardWrapper>
 		</div>
 	);
 }

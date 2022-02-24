@@ -1,7 +1,18 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, {useState} from "react";
+import {Link} from "react-router-dom";
 import axios from "axios";
-import { History } from 'history';
+import {History} from 'history';
+import {
+    DescriptionText,
+    ErrorMessage,
+    Form, FormButton,
+    FormInput, FormLink, FormLinkText,
+    FormPicture,
+    FormPictureWrapper,
+    FormTitle,
+    InputWrapper, PageWrapper
+} from "../PageLogin/PageLogin.css";
+import MovieLogo from "../../../assets/images/logo.png";
 
 type ResetPagePropsType = {
     history: History,
@@ -36,7 +47,7 @@ export const PageReset: React.FC<ResetPagePropsType> = ({history, match}) => {
         }
 
         try {
-            const { data } = await axios.put(
+            const {data} = await axios.put(
                 `http://localhost:5000/api/auth/resetPassword/${match.params.resetToken}`,
                 {
                     password,
@@ -55,46 +66,41 @@ export const PageReset: React.FC<ResetPagePropsType> = ({history, match}) => {
     };
 
     return (
-        <div className="resetpassword-screen">
-            <form
-                onSubmit={resetPasswordHandler}
-                className="resetpassword-screen__form"
-            >
-                <h3 className="resetpassword-screen__title">Forgot Password</h3>
-                {error && <span className="error-message">{error} </span>}
+        <PageWrapper>
+            <Form onSubmit={resetPasswordHandler}>
+                <FormPictureWrapper>
+                    <FormPicture src={MovieLogo} alt="Movie logo"/>
+                </FormPictureWrapper>
+                <FormTitle>
+                    Password Reset
+                </FormTitle>
+                <DescriptionText>
+                    You requested a password reset! Please input your new password, after which you will be redirected to the login screen!
+                </DescriptionText>
+                {error && <ErrorMessage>{error}</ErrorMessage>}
                 {success && (
                     <span className="success-message">
-            {success} <Link to="/login">Login</Link>
-          </span>
-                )}
-                <div className="form-group">
-                    <label htmlFor="password">New Password:</label>
-                    <input
-                        type="password"
-                        required
-                        id="password"
-                        placeholder="Enter new password"
-                        autoComplete="true"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="confirmpassword">Confirm New Password:</label>
-                    <input
-                        type="password"
-                        required
-                        id="confirmpassword"
-                        placeholder="Confirm new password"
-                        autoComplete="true"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                    Reset Password
-                </button>
-            </form>
-        </div>
+                            {success} <Link to="/login">Login</Link></span>)}
+                <InputWrapper>
+                    <FormInput type="password"
+                               required
+                               id="password"
+                               placeholder="Enter new password"
+                               autoComplete="true"
+                               value={password}
+                               onChange={(e) => setPassword(e.target.value)}/>
+
+                    <FormInput type="password"
+                               required
+                               id="confirmpassword"
+                               placeholder="Confirm new password"
+                               autoComplete="true"
+                               value={confirmPassword}
+                               onChange={(e) => setConfirmPassword(e.target.value)}/>
+
+                    <FormButton type={"submit"}>RESET PASSWORD</FormButton>
+                </InputWrapper>
+            </Form>
+        </PageWrapper>
     );
 };

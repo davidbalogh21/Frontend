@@ -85,7 +85,7 @@ export const Button = styled.a <{ isYoutube?: boolean }>`
   padding: 0.5rem 0;
   margin: 0.5rem 1rem;
   width: 11rem;
-  color: black;
+  color: white;
   border: 2px solid black;
   text-decoration: none;
   text-align: center;
