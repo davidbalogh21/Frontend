@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from '../../components/Modal/Modal';
 import { RouteComponentProps } from 'react-router';
+import { ActorInfo, CompanyInfo, MovieAssetType, VideoInfo } from '../../../types/AssetTypes';
 import {
 	ActorBox,
 	ActorName,
 	ActorPhoto,
 	Box,
-	Button,
-	CompanyPhoto,
+	Button, ButtonLink,
+	CompanyPhoto, DataButton,
 	Date,
-	ImportantText,
+	ImportantText, PageWrapper,
 	Plot,
-	Poster,
+	Poster, ReviewButton,
 	TextBox,
 	Title,
-} from './PageAssetDetailscss';
-import { ActorInfo, CompanyInfo, MovieElements, VideoInfo } from '../../../types/AssetTypes';
+} from './PageAssetDetails.css';
 
 type TParams = { id: string };
 
 function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
-	const [movie, setMovie] = useState<MovieElements>(Object);
+	const [movie, setMovie] = useState<MovieAssetType>(Object);
 	const [cast, setCast] = useState<ActorInfo[]>([]);
 	const [companies, setCompanies] = useState<CompanyInfo[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
@@ -52,13 +52,24 @@ function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
 			{loading ? (
 				<>loading</>
 			) : (
-				<>
+				<PageWrapper>
 					<Box>
 						<Poster
 							src={`https://www.themoviedb.org/t/p/original/${movie.poster_path}`}
 						/>
 						<TextBox>
 							<Title>{movie.original_title}</Title>
+							<DataButton>
+								<ButtonLink href={`https://www.imdb.com/title/${movie.imdb_id}`} target="blank">
+									IMDB
+								</ButtonLink>
+							</DataButton>
+							<DataButton
+								isYoutube
+								onClick={() => setModalIsOpen(!modalIsOpen)}
+							>
+								Youtube
+							</DataButton>
 							<Date>Released in: {movie.release_date}</Date>
 							<Plot>{movie.overview}</Plot>
 							<Plot>{movie.tagline}</Plot>
@@ -66,18 +77,12 @@ function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
 							<Date>
 								Rating: {movie.vote_average}/10 from {movie.vote_count} users
 							</Date>
-							<Button
-								href={`https://www.imdb.com/title/${movie.imdb_id}`}
-								target="blank"
-							>
-								IMDB
-							</Button>
-							<Button
-								isYoutube
-								onClick={() => setModalIsOpen(!modalIsOpen)}
-							>
-								Youtube
-							</Button>
+
+							<ReviewButton>
+								<ButtonLink href={`/static/asset/${match.params.id}/review`}>
+									Add review
+								</ButtonLink>
+							</ReviewButton>
 							<Modal
 								onClose={() => setModalIsOpen(false)}
 								youtube={video}
@@ -85,27 +90,25 @@ function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
 							/>
 						</TextBox>
 					</Box>
+					<ImportantText>Cast: </ImportantText>
 
 					<ActorBox>
-						<ImportantText>Cast: </ImportantText>
 
 						{cast?.slice(0, 10).map((actors) => (
 							<div key={`id_${actors?.id}`}>
 								<ActorName>{actors?.name}</ActorName>
-								{actors?.profile_path ? (
+								{actors?.profile_path && (
 									<ActorPhoto
-										src={`https://www.themoviedb.org/t/p/original/${actors?.profile_path}`}
+										src={`https://www.themoviedb.org/t/p/original/${actors?.profile_path}` ?? "https://vulcanoilco.com/wp-content/uploads/person-placeholder.png"}
 									/>
-								) : (
-									<ActorPhoto
-										src="https://vulcanoilco.com/wp-content/uploads/person-placeholder.png"/>
 								)}
 							</div>
 						))}
 					</ActorBox>
 
+					<ImportantText>Production companies: </ImportantText>
+
 					<ActorBox>
-						<ImportantText>Production companies: </ImportantText>
 
 						{companies?.map((company) => (
 							<div key={`id_${company?.id}`}>
@@ -120,8 +123,8 @@ function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
 							</div>
 						))}
 					</ActorBox>
-				</>)}
-		</>
+				</PageWrapper>)}
+			</>
 	);
 }
 

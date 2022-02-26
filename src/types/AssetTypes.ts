@@ -1,4 +1,4 @@
-import { Date } from '../components/pages/PageAssetDetails/PageAssetDetailscss';
+import { Date } from '../components/pages/PageAssetDetails/PageAssetDetails.css';
 
 export type RouteInfo = {
 	id: string;
@@ -21,7 +21,7 @@ export type GenreTypes = {
 	name: string;
 }
 
-export type MovieElements = {
+export type MovieAssetType = {
 	original_title: string;
 	poster_path: string;
 	release_date: string | Date;

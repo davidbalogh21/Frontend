@@ -13,6 +13,7 @@ import {PageReset} from "./components/pages/PageReset/PageReset";
 import {PageForgot} from "./components/pages/PageForgot/PageForgot";
 import {PageRegister} from "./components/pages/PageRegister/PageRegister";
 import {PageProfile} from "./components/pages/PageProfile/PageProfile";
+import { PageAddReview } from './components/pages/PageAddReview/PageAddReview';
 
 function App() {
     return (
@@ -31,6 +32,7 @@ function App() {
                         <Route path="/forgot" exact component={PageForgot}/>
                         <Route path="/reset/:resetToken" exact component={PageReset}/>
                         <Route path="/profile" exact component={PageProfile}/>
+                        <Route path="/static/asset/:id/review" exact component={PageAddReview}/>
                         <Route component={PageNotFound}/>
                     </Switch>
                     <Footer/>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import GradeRoundedIcon from '@material-ui/icons/GradeRounded';
 import { Card, CardWrapper } from '../../styles/GridStyles.css';
-import { Title } from '../PageAssetDetails/PageAssetDetailscss';
+import { Title } from '../PageAssetDetails/PageAssetDetails.css';
 import { RouteComponentProps } from 'react-router';
 import RatingColor from '../../../utils/fnRatingColor';
 
