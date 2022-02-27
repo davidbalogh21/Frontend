@@ -16,6 +16,7 @@ import {
 	TextBox,
 	Title,
 } from './PageAssetDetails.css';
+import {ReviewList} from "../../components/ReviewList/ReviewList";
 
 type TParams = { id: string };
 
@@ -123,6 +124,9 @@ function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
 							</div>
 						))}
 					</ActorBox>
+					<ImportantText>Reviews: </ImportantText>
+
+					<ReviewList movie_id={match.params.id}/>
 				</PageWrapper>)}
 			</>
 	);

@@ -62,7 +62,32 @@ export type PhotoProps = {
 }
 
 export type UserDetailsType = {
+	created: Date;
 	email: string;
 	username: string;
 	_id: string;
+}
+
+export type ReviewsType = {
+	reviews: ReviewsType[];
+}
+
+export type ReviewType = {
+	_id: number;
+	username: string;
+	movie_id: number;
+	user_id: string;
+	title: string;
+	description: string;
+	rating: number;
+	date: Date,
+	comments: CommentType[],
+}
+
+export type CommentType = {
+	username: string;
+	_id: number;
+	user_id: string;
+	description: string;
+	date: Date,
 }

@@ -5,6 +5,7 @@ import { Card, CardWrapper } from '../../styles/GridStyles.css';
 import { Title } from '../PageAssetDetails/PageAssetDetails.css';
 import { RouteComponentProps } from 'react-router';
 import RatingColor from '../../../utils/fnRatingColor';
+import {scrollToTop} from "../../../utils/fnScroll";
 
 type TParams = { id: string, name: string }
 
@@ -56,6 +57,7 @@ function PageAssets({ match }: RouteComponentProps<TParams>) {
 						to={`/static/asset/${movie.id}`}
 						style={{ textDecoration: 'none' }}
 						key={`id_${movie.title}`}
+						onClick={scrollToTop}
 					>
 						<Card>
 							<img

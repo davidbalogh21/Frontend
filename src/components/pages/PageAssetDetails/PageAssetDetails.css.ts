@@ -32,7 +32,7 @@ export const Box = styled.div`
 `;
 
 export const TextBox = styled.div`
-  max-width: 40rem;
+  max-width: 50rem;
   margin: auto 1rem;
 `;
 

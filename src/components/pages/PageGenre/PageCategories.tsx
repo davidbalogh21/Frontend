@@ -4,6 +4,7 @@ import {GenreTypes} from '../../../types/AssetTypes';
 import {Link} from 'react-router-dom';
 import {ItemSlider} from "../../components/ItemSlider/ItemSlider";
 import {BackgroundContainer, CategoryTitle} from "./PageCategories.css";
+import {scrollToTop} from "../../../utils/fnScroll";
 
 export const PageCategories: React.FC =() => {
     const [genres, setGenres] = useState<GenreTypes[]>([]);
@@ -32,6 +33,7 @@ export const PageCategories: React.FC =() => {
                     to={`/static/movies/${genre.name.toLocaleLowerCase()}`}
                     style={{textDecoration: 'none'}}
                     key={`id_${genre.id}`}
+                    onClick={scrollToTop}
                 >
                     <CategoryTitle>{genre.name}</CategoryTitle>
                 </Link>

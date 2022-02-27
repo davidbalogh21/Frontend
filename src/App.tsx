@@ -13,11 +13,14 @@ import {PageReset} from "./components/pages/PageReset/PageReset";
 import {PageForgot} from "./components/pages/PageForgot/PageForgot";
 import {PageRegister} from "./components/pages/PageRegister/PageRegister";
 import {PageProfile} from "./components/pages/PageProfile/PageProfile";
-import { PageAddReview } from './components/pages/PageAddReview/PageAddReview';
+import {PageAddReview} from './components/pages/PageAddReview/PageAddReview';
+import {UserProvider} from "./contexts/UserContext";
+import {PageReview} from "./components/pages/PageReview/PageReview";
 
 function App() {
     return (
         <PopularProvider>
+            <UserProvider>
             <Router>
                 <div className="App">
                     <Navbar/>
@@ -33,11 +36,13 @@ function App() {
                         <Route path="/reset/:resetToken" exact component={PageReset}/>
                         <Route path="/profile" exact component={PageProfile}/>
                         <Route path="/static/asset/:id/review" exact component={PageAddReview}/>
+                        <Route path="/static/asset/:movie_id/review/:id" exact component={PageReview}/>
                         <Route component={PageNotFound}/>
                     </Switch>
                     <Footer/>
                 </div>
             </Router>
+            </UserProvider>
         </PopularProvider>
     );
 }

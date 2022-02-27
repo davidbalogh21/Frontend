@@ -15,6 +15,7 @@ import {Button} from "@material-ui/core";
 import axios from "axios";
 import {History} from "history";
 import MovieLogo from "../../../assets/images/logo.png";
+import {useUser} from "../../../contexts/UserContext";
 
 type PageLoginPropsType = {
 	history: History,
@@ -24,12 +25,13 @@ export const PageLogin: React.FC<PageLoginPropsType> = ({history}) => {
 	const [email, setEmail] = useState<string>('');
 	const [password, setPassword] = useState<string>('');
 	const [error, setError] = useState<string>('');
+	const {userData} = useUser();
 
-	/*useEffect(()=>{
+	useEffect(()=>{
 		if (localStorage.getItem("authToken")) {
-			history.push("/");
+			history.push("/profile");
 		}
-	}, [history]);*/
+	}, [history]);
 
 	const onLogin = async (e: any) => {
 		e.preventDefault();
@@ -43,7 +45,7 @@ export const PageLogin: React.FC<PageLoginPropsType> = ({history}) => {
 		try {
 			const {data} = await axios.post("http://localhost:5000/api/auth/login", { email, password}, config);
 			localStorage.setItem("authToken", data.token);
-
+			fetchPrivateData();
 			history.push("/profile");
 		} catch (error: any) {
 			setError(error.response.data.error);
@@ -52,6 +54,22 @@ export const PageLogin: React.FC<PageLoginPropsType> = ({history}) => {
 			}, 5000);
 		}
 	};
+
+	const fetchPrivateData = async () => {
+		const config = {
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${localStorage.getItem("authToken")}`
+			}
+		}
+
+		try {
+			const { data } = await axios.get("http://localhost:5000/api/auth/getUser", config);
+			userData.current = data.data;
+		} catch (e) {
+			localStorage.removeItem("authToken");
+		}
+	}
 
 	return (
 		<PageWrapper>

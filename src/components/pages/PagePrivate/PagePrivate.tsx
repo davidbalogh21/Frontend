@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import {History} from "history";
+import {useUser} from "../../../contexts/UserContext";
+import {UserDetailsType} from "../../../types/AssetTypes";
 
 type PagePrivatePropsType = {
     history: History,

@@ -4,16 +4,9 @@ import { PopularInfo } from '../types/AssetTypes';
 
 
 const initialPopular: PopularInfo[] = [{ id: 0, title: '', poster_path: '', vote_average: 0, backdrop_path: '' }];
-export const PopularContext = createContext<PopularInfo[]>(initialPopular);
 
 export const PopularProvider: React.FC = (props) => {
-
-	useEffect(() => {
-		fetchPopular();
-	}, []);
-
 	const [popular, setPopular] = useState([]);
-
 
 	const fetchPopular = async () => {
 		const data = await fetch(FetchUrl.POPULAR);
@@ -21,6 +14,9 @@ export const PopularProvider: React.FC = (props) => {
 		setPopular(data_json.results);
 	};
 
+	useEffect(() => {
+		fetchPopular();
+	}, []);
 
 	return (
 		<PopularContext.Provider value={popular}>
@@ -28,3 +24,5 @@ export const PopularProvider: React.FC = (props) => {
 		</PopularContext.Provider>
 	);
 };
+
+export const PopularContext = createContext<PopularInfo[]>(initialPopular);
