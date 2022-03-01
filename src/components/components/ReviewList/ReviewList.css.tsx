@@ -45,3 +45,14 @@ export const ReviewRatingContainer = styled.div`
   bottom: 0;
   left: 0;
 `
+
+export const ReviewPicture = styled.img`
+  width: 100%;
+`
+
+export const AddReviewButton = styled(FormButton)`
+  width: auto;
+  display: inline;
+  margin-left: 1rem;
+  padding: 0.5rem 1rem;
+`

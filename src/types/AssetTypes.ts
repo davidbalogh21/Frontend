@@ -22,6 +22,7 @@ export type GenreTypes = {
 }
 
 export type MovieAssetType = {
+	backdrop_path: string;
 	original_title: string;
 	poster_path: string;
 	release_date: string | Date;

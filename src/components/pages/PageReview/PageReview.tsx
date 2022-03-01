@@ -57,16 +57,18 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
                 "Content-Type": "application/json"
             }
         }
-        try {
-            const {data} = await axios.post(`http://localhost:5000/api/comment/addComment`, {
-                review_id: match.params.id,
-                user_id: userData.current?._id,
-                username: userData.current?.username,
-                description: formComment
-            }, config);
-            window.location.reload();
-        } catch (e) {
-            console.log(e);
+        if (userData.current) {
+            try {
+                const {data} = await axios.post(`http://localhost:5000/api/comment/addComment`, {
+                    review_id: match.params.id,
+                    user_id: userData.current._id,
+                    username: userData.current?.username,
+                    description: formComment
+                }, config);
+                window.location.reload();
+            } catch (e: any) {
+                console.log(e);
+            }
         }
     };
 
@@ -79,8 +81,6 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
         fetchMovie().then(result => console.log("SUCCESSFUL FETCH", movie));
         fetchReview().then(result => console.log("SUCCESSFUL FETCH", review));
     }, []);
-
-    console.log(review);
 
     return <PageWrapper>
         <ReviewWrapper>
@@ -104,7 +104,7 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
                 <ReviewText>
                     {review?.description}
                 </ReviewText>
-                <Rating name="read-only" value={review?.rating ?? 7} readOnly max={10}/>
+                <Rating name="read-only" value={review?.rating ?? 7} readOnly max={10} precision={0.5}/>
             </ReviewContainer>
         </ReviewWrapper>
         <CommentTitle>
