@@ -13,6 +13,8 @@ import {
 } from "./ReviewList.css";
 import RatingColor from "../../../utils/fnRatingColor";
 import {scrollToTop} from "../../../utils/fnScroll";
+import {IconContainer} from "../UserActivity/UserActivity.css";
+import {AiOutlineComment, AiOutlineLike} from "react-icons/ai";
 
 
 type ReviewListPropTypes = {
@@ -33,7 +35,6 @@ export const ReviewList: React.FC<ReviewListPropTypes> = ({movie_id}) => {
             const {data} = await axios.post(`http://localhost:5000/api/review/getReviewsByMovieId`, {movie_id}, config);
             setReviewObject(data.reviews);
         } catch (error: any) {
-
         }
     };
 
@@ -57,6 +58,11 @@ export const ReviewList: React.FC<ReviewListPropTypes> = ({movie_id}) => {
                                     style={{color: RatingColor(review?.rating)}}>Rating: {review?.rating}/10</ReviewRatingText>
                                 <ReviewRatingContainer>
                                     <Rating name="read-only" value={review?.rating} readOnly max={10} precision={0.5}/>
+                                    <div>
+                                        <AiOutlineLike/> <span>{review?.likes?.length} likes</span>
+                                    </div>
+                                    <div><AiOutlineComment/><span> {review?.comments?.length} comments</span>
+                                    </div>
                                 </ReviewRatingContainer>
                             </ReviewContainer>
                         </ReviewLink>

@@ -9,7 +9,6 @@ export const ReviewsWrapper = styled.div`
 `
 
 export const ReviewContainer = styled.div`
-  height: 15rem;
   margin: 1.5rem 3rem;
   padding: 0.5rem 1rem;
   box-shadow: 0 5px 10px -3px rgb(35 35 35);
@@ -17,13 +16,16 @@ export const ReviewContainer = styled.div`
 `
 
 export const ReviewTitle = styled.p`
+  text-align: center;
   font-size: 1.2rem;
   font-weight: 500;
   text-decoration: underline red;
 `
 
 export const ReviewUser = styled.p`
+  text-align: center;
     margin-top: -1rem;
+  margin-left: 1rem;
 `
 
 export const ReviewDate = styled.div`

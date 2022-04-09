@@ -27,6 +27,12 @@ export const ProfileTitle = styled(FormTitle)`
     margin-top: -3rem;
 `
 
+export const ProfileFollowers = styled(FormTitle)`
+  font-weight: normal;
+  font-size: 1rem;
+  margin-top: 1rem;
+`
+
 export const InfoTitle = styled.div`
   font-size: 1.1rem;
   font-weight: 500;
@@ -56,4 +62,41 @@ export const InfoData = styled.div`
 
 export const LogoutButton = styled(FormButton)`
   
+`
+
+export const FollowData = styled.span`
+  font-weight: bold;
+  
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`
+
+export const ModalText = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25rem;
+  height: auto;
+  background-color: whitesmoke;
+  border: 2px solid #000;
+  padding: 2.5rem 5rem;
+`
+
+export const ModalTitle = styled.p`
+  font-size: 1.2rem;
+  font-weight: bold;
+`
+
+export const ModalLinkToProfile = styled.a`
+  text-decoration: none;
+  font-size: 1.4rem;
+  display: block;
+  color: darkslategrey;
+  
+  &:hover {
+    text-decoration: underline;
+  }
 `

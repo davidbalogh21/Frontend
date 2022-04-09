@@ -1,9 +1,10 @@
 import styled, {css} from "styled-components";
 import {Form, FormButton} from "../PageLogin/PageLogin.css";
 import {FormInput, InputWrapper} from '../PageLogin/PageLogin.css'
+import { Button } from "../../styles/AccessibilityStyles.css"
 
 export const PageWrapper = styled.div`
-	margin: 2rem;
+  margin: 2rem;
 `
 
 export const Poster = styled.img`
@@ -27,13 +28,13 @@ export const ReviewWrapper = styled.div`
   }
 `;
 
-
 export const ReviewContainer = styled.div`
   width: 100rem;
   padding: 2rem;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
   background: #fff;
   margin-left: 2rem;
+  position: relative;
 `
 
 export const ReviewTitle = styled.div`
@@ -43,23 +44,30 @@ export const ReviewTitle = styled.div`
 
 export const ReviewUser = styled.div`
   margin-left: 2rem;
-  font-size: 0.9rem;
+  font-size: 1.1rem;
   color: dimgrey;
   margin-bottom: 2rem;
+  line-height: 2rem;
+
+  a {
+    text-decoration: none;
+    color: #FF1D36;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 `
 
 export const ReviewText = styled.div`
   font-size: 1.1rem;
   font-weight: 400;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
 `
 
 export const RatingContainer = styled.div`
-  width: 8rem;
-  height: 8rem;
-  position: relative;
-  bottom: 0;
-  left: 0;
+  margin-bottom: 2rem;
 `
 
 export const CommentTitle = styled.div`
@@ -87,6 +95,16 @@ export const CommentContainer = styled.div`
 export const CommentUser = styled.div`
   font-size: 1.4rem;
   font-weight: 400;
+
+  a {
+    text-decoration: none;
+    color: #FF1D36;
+
+    &:hover {
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
 `
 
 export const CommentDate = styled.div`
@@ -113,10 +131,43 @@ export const EmptyCommentText = styled.div`
   font-size: 1.1rem;
 `
 
-export const CommentButton = styled(FormButton)<{notLoggedIn: boolean}>`
+export const CommentButton = styled(FormButton)<{ notLoggedIn: boolean }>`
   width: 8%;
-  
+
   ${(props) => props.notLoggedIn && css`
     cursor: not-allowed;
   `}
+`
+
+export const LikeNumber = styled.span`
+  font-size: 1.2rem;
+  font-weight: bolder;
+  padding-top: 4rem;
+`
+
+export const LikeContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const FollowButton = styled.button<{ isFollowed: boolean }>`
+  background-color: ${(props) => props.isFollowed ? '#FF1D36' : 'white'};
+  color: ${(props) => props.isFollowed ? 'white' : '#222'};
+  outline: 0;
+  padding: 0.4rem 0.8rem;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 3rem;
+  border: 0.18rem solid #FF1D36;
+  transition: all 240ms ease-in-out;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-left: 1.5rem;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",serif;
+
+  &:hover {
+    background-color: ${(props) => !props.isFollowed ? '#FF1D36' : 'white'};
+    color: ${(props) => !props.isFollowed ? 'white' : '#222'};
+  }
 `

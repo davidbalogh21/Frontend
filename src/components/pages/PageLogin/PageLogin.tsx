@@ -1,6 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import {Link, Redirect} from 'react-router-dom';
-import {RegisterWrapper, RegisterSubtext, RegisterTitle, RegisterForm} from "../PageRegister/PageRegister.css";
 import {
 	Form, FormLinkText,
 	FormButton,
@@ -11,7 +9,6 @@ import {
 	InputWrapper,
 	PageWrapper, FormLink, ErrorMessage
 } from './PageLogin.css';
-import {Button} from "@material-ui/core";
 import axios from "axios";
 import {History} from "history";
 import MovieLogo from "../../../assets/images/logo.png";

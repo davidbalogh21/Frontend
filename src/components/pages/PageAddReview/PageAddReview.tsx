@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
 	PageWrapper,
 	Poster,
@@ -13,6 +13,7 @@ import {FormButton, FormInput, InputWrapper} from '../PageLogin/PageLogin.css';
 import StarIcon from '@mui/icons-material/Star';
 import axios from "axios";
 import {useUser} from "../../../contexts/UserContext";
+import {AuthContext} from "../../../contexts/AuthContext";
 
 type PageAddReviewPropsType = {
 	history: History,
@@ -31,7 +32,7 @@ export const PageAddReview: React.FC<PageAddReviewPropsType> = ({history, match}
 	const [reviewDescription, setReviewDescription] = useState<string>('');
 	const [profileData, setProfileData] = useState<UserDetailsType>();
 
-	const {userData} = useUser();
+	const userData = useContext(AuthContext);
 
 
 	useEffect(() => {
@@ -77,8 +78,8 @@ export const PageAddReview: React.FC<PageAddReviewPropsType> = ({history, match}
 			fetchPrivateData();
 
 			const {data} = await axios.post("http://localhost:5000/api/review/addReview", {movie_id: match.params.id,
-				user_id: userData.current?._id,
-				username: userData.current?.username,
+				user_id: userData?._id,
+				username: userData?.username,
 				rating: value,
 				title: reviewTitle,
 				description: reviewDescription}, config);

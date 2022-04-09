@@ -63,14 +63,11 @@ export type PhotoProps = {
 }
 
 export type UserDetailsType = {
+	follows: UserDetailsType[];
 	created: Date;
 	email: string;
 	username: string;
 	_id: string;
-}
-
-export type ReviewsType = {
-	reviews: ReviewsType[];
 }
 
 export type ReviewType = {
@@ -83,6 +80,7 @@ export type ReviewType = {
 	rating: number;
 	date: Date,
 	comments: CommentType[],
+	likes: UserDetailsType[]
 }
 
 export type CommentType = {
@@ -90,5 +88,6 @@ export type CommentType = {
 	_id: number;
 	user_id: string;
 	description: string;
-	date: Date,
+	date: Date;
+	likes: UserDetailsType[];
 }

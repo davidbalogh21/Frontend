@@ -98,11 +98,14 @@ function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
 						{cast?.slice(0, 10).map((actors) => (
 							<div key={`id_${actors?.id}`}>
 								<ActorName>{actors?.name}</ActorName>
-								{actors?.profile_path && (
+								{actors?.profile_path ? (
 									<ActorPhoto
 										src={`https://www.themoviedb.org/t/p/original/${actors?.profile_path}` ?? "https://vulcanoilco.com/wp-content/uploads/person-placeholder.png"}
 									/>
-								)}
+								) : <ActorPhoto
+									src={"https://vulcanoilco.com/wp-content/uploads/person-placeholder.png"}
+								/>
+								}
 							</div>
 						))}
 					</ActorBox>

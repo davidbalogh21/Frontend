@@ -3,7 +3,7 @@ import {FetchUrl} from '../../../types/Routing';
 import {GenreTypes} from '../../../types/AssetTypes';
 import {Link} from 'react-router-dom';
 import {ItemSlider} from "../../components/ItemSlider/ItemSlider";
-import {BackgroundContainer, CategoryTitle} from "./PageCategories.css";
+import {BackgroundContainer, CategoryButton, CategoryTitle} from "./PageCategories.css";
 import {scrollToTop} from "../../../utils/fnScroll";
 
 export const PageCategories: React.FC =() => {
@@ -31,11 +31,12 @@ export const PageCategories: React.FC =() => {
                 <div>
                 <Link
                     to={`/static/movies/${genre.name.toLocaleLowerCase()}`}
-                    style={{textDecoration: 'none'}}
                     key={`id_${genre.id}`}
                     onClick={scrollToTop}
                 >
-                    <CategoryTitle>{genre.name}</CategoryTitle>
+                    <CategoryButton>
+                    {genre.name}
+                </CategoryButton>
                 </Link>
                     <ItemSlider id={genre.id}/>
                 </div>

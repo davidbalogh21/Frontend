@@ -1,9 +1,17 @@
-import React, {createContext, useContext, useEffect, useRef} from 'react';
+import React, { createContext, useState, useEffect } from 'react';
 import {UserDetailsType} from "../types/AssetTypes";
 import axios from "axios";
 
-const useUserService = () => {
-    const userData = useRef<UserDetailsType>();
+const defaultUser: UserDetailsType = {
+    follows: [],
+    email: '',
+    username: '',
+    _id: '',
+    created: new Date (Date.now().toLocaleString()),
+}
+
+export const AuthProvider: React.FC = (props) => {
+    const [userData, setUserData] = useState<UserDetailsType>(defaultUser);
 
     const fetchPrivateData = async () => {
         const config = {
@@ -15,7 +23,7 @@ const useUserService = () => {
 
         try {
             const { data } = await axios.get("http://localhost:5000/api/auth/getUser", config);
-            userData.current = data.data;
+            setUserData(data.data);
         } catch (e) {
             localStorage.removeItem("authToken");
         }
@@ -25,18 +33,11 @@ const useUserService = () => {
         fetchPrivateData();
     }, []);
 
-    return {
-        userData,
-    };
+    return (
+        <AuthContext.Provider value={userData}>
+            {props.children}
+        </AuthContext.Provider>
+    );
 };
 
-// @ts-ignore
-export const UserContext = createContext<ReturnType<typeof useUserService>>(null);
-
-// @ts-ignore
-export const UserProvider = ({children}) => {
-    const service = useUserService();
-    return <UserContext.Provider value={service}> {children} </UserContext.Provider>;
-};
-
-export const useUser = () => useContext(UserContext);
+export const AuthContext = createContext<UserDetailsType>(defaultUser);

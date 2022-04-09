@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Carousel from "react-multi-carousel";
+import {FormButton} from "../PageLogin/PageLogin.css";
 
 export const BackgroundContainer = styled.div`
   position: relative;
@@ -7,8 +7,8 @@ export const BackgroundContainer = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background: #f6f5f7;
 `
+
 export const CategoryContainer = styled.div`
   width: 80vw;
   display: grid;
@@ -59,5 +59,10 @@ export const CategoryTitle = styled.h1`
   text-underline: #FF1D36;
   color: black;
   margin-left: 5rem;
+`
+
+export const CategoryButton = styled(FormButton)`
+  width: 10%;
+  margin: 2.5rem 0 1.25rem 5rem;
 `
 

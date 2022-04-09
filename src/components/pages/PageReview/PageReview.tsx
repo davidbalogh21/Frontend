@@ -1,14 +1,14 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
     CommentButton,
     CommentContainer, CommentDate, CommentForm, CommentInputWrapper, CommentSectionContainer, CommentText,
-    CommentTitle, CommentUser, EmptyCommentText,
+    CommentTitle, CommentUser, EmptyCommentText, FollowButton, LikeContainer, LikeNumber,
     PageWrapper,
     Poster, RatingContainer, ReviewContainer, ReviewText, ReviewTitle, ReviewUser,
     ReviewWrapper
 } from './PageReview.css';
 import {History} from 'history';
-import {MovieAssetType, ReviewType} from '../../../types/AssetTypes';
+import {CommentType, MovieAssetType, ReviewType, UserDetailsType} from '../../../types/AssetTypes';
 import axios from "axios";
 import {useUser} from "../../../contexts/UserContext";
 import {config} from "../../../utils/AxiosConfig";
@@ -16,8 +16,8 @@ import {ReviewFormTitle, ReviewMovieTagline} from "../PageAddReview/PageAddRevie
 import Rating from "@mui/material/Rating";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import IconButton from '@mui/material/IconButton';
-import ReplyIcon from '@mui/icons-material/Reply';
-import {FormInput, InputWrapper} from '../PageLogin/PageLogin.css'
+import {CommentSection} from "../../components/CommentSection/CommentSection";
+import {AuthContext} from "../../../contexts/AuthContext";
 
 type PageReviewPropsType = {
     history: History,
@@ -32,9 +32,11 @@ type PageReviewPropsType = {
 export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
     const [movie, setMovie] = useState<MovieAssetType>(Object);
     const [review, setReview] = useState<ReviewType>(Object);
+    const [isReviewLiked, setIsReviewLiked] = useState(false);
+    const [numberOfLikes, setNumberOfLikes] = useState<number>();
+    const [isUserFollowed, setIsUserFollowed] = useState<boolean>(false);
     const replyRef = useRef(null);
-    const [formComment, setFormComment] = useState<string>('');
-    const {userData} = useUser();
+    const userData = useContext(AuthContext);
     let rating;
 
     const fetchMovie = async () => {
@@ -50,38 +52,45 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
         rating = data?.review?.rating;
     }
 
-    const commentHandler = async (e: any) => {
-        e.preventDefault();
-        const config = {
-            headers: {
-                "Content-Type": "application/json"
-            }
+    const likeHandlerReview = async (review: ReviewType) => {
+        setIsReviewLiked(!isReviewLiked);
+        if (isReviewLiked) {
+            setNumberOfLikes(numberOfLikes as number - 1)
+        } else {
+            setNumberOfLikes(review?.likes?.length + 1)
         }
-        if (userData.current) {
-            try {
-                const {data} = await axios.post(`http://localhost:5000/api/comment/addComment`, {
-                    review_id: match.params.id,
-                    user_id: userData.current._id,
-                    username: userData.current?.username,
-                    description: formComment
-                }, config);
-                window.location.reload();
-            } catch (e: any) {
-                console.log(e);
-            }
-        }
-    };
+        await axios.post("http://localhost:5000/api/review/likeReview", {user_id: userData?._id, review_id: review?._id}, config);
+    }
 
-    const replyHandler = () => {
-        // @ts-ignore
-        replyRef.current.focus();
+    const didUserLikeReview = (review: ReviewType, userSearch: UserDetailsType): boolean => {
+        return !!review?.likes?.find(user => user.email === userSearch?.email);
     }
 
     useEffect(() => {
-        fetchMovie().then(result => console.log("SUCCESSFUL FETCH", movie));
-        fetchReview().then(result => console.log("SUCCESSFUL FETCH", review));
+        fetchMovie().then(()=>{});
+        fetchReview().then(()=>{});
     }, []);
 
+    useEffect(()=>{
+        if (review) {
+            setNumberOfLikes(review?.likes?.length);
+            setIsReviewLiked(didUserLikeReview(review, userData));
+        }
+        setIsUserFollowed(isUserFollowedFc());
+    }, [review, userData]);
+
+    console.log(userData);
+
+    const isUserFollowedFc = (): boolean => {
+        return !!userData?.follows?.find(user => user?.username === review?.username);
+    }
+
+    const onFollowButtonClick = async () => {
+        setIsUserFollowed(!isUserFollowed);
+        await axios.post("http://localhost:5000/api/auth/followUser", {user_id: userData?._id, follow_id: review?.user_id}, config);
+    }
+
+    // @ts-ignore
     return <PageWrapper>
         <ReviewWrapper>
             <Poster
@@ -99,46 +108,24 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
                     {review?.title ?? 'Placeholder title'}
                 </ReviewTitle>
                 <ReviewUser>
-                    by {review?.username ?? 'unknown user'} on {new Date(review?.date).toLocaleDateString()}
+                    by <a href={`/profiles/${review?.user_id}`}>{review?.username ?? 'unknown user'}</a> on {new Date(review?.date).toLocaleDateString()}
+                    <FollowButton onClick={onFollowButtonClick} isFollowed={isUserFollowed}>{isUserFollowed ? 'following' : 'follow'}</FollowButton>
                 </ReviewUser>
                 <ReviewText>
                     {review?.description}
                 </ReviewText>
+                <RatingContainer>
                 <Rating name="read-only" value={review?.rating ?? 7} readOnly max={10} precision={0.5}/>
+                </RatingContainer>
+                <IconButton onClick={() => likeHandlerReview(review)} color={isReviewLiked ? 'primary' : 'default'}>
+                    {numberOfLikes}
+                    <ThumbUpIcon />
+                </IconButton>
             </ReviewContainer>
         </ReviewWrapper>
         <CommentTitle>
             Comments:
         </CommentTitle>
-        <CommentSectionContainer>
-            { review?.comments?.length ? review?.comments?.map((comment) => (
-            <CommentContainer>
-                <CommentUser>
-                    {comment?.username ?? 'unknown user'}
-                </CommentUser>
-                <CommentDate>
-                    on {new Date(comment?.date).toLocaleDateString()}
-                </CommentDate>
-                <CommentText>
-                    {comment?.description}
-                </CommentText>
-                <IconButton>
-                    <ThumbUpIcon/>
-                </IconButton>
-                <IconButton onClick={replyHandler}>
-                    <ReplyIcon/>
-                </IconButton>
-            </CommentContainer>
-            )) : <EmptyCommentText>No comments yet! Be the first to add a comment!</EmptyCommentText>}
-            <CommentForm onSubmit={commentHandler}>
-                <InputWrapper>
-                    <CommentInputWrapper
-                        type={"text"} required id={"formComment"} ref={replyRef} placeholder={userData ? "Add your comment here..." : "YOU HAVE TO BE LOGGED IN TO CONTINUE!"} value={formComment}
-                        onChange={(e) => setFormComment(e.target.value)}
-                    />
-                    <CommentButton type={'submit'} notLoggedIn={!userData}>SUBMIT</CommentButton>
-                </InputWrapper>
-            </CommentForm>
-        </CommentSectionContainer>
+        <CommentSection review={review} match={match}/>
     </PageWrapper>
 };
