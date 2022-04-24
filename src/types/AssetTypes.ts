@@ -32,6 +32,7 @@ export type MovieAssetType = {
 	vote_average: number;
 	vote_count: number;
 	imdb_id: number;
+	id: string;
 }
 
 export type ActorInfo = {

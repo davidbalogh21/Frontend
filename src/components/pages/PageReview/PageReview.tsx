@@ -63,7 +63,7 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
     }
 
     const didUserLikeReview = (review: ReviewType, userSearch: UserDetailsType): boolean => {
-        return !!review?.likes?.find(user => user.email === userSearch?.email);
+        return !!review?.likes?.find(user => user?.email === userSearch?.email);
     }
 
     useEffect(() => {
@@ -78,8 +78,6 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
         }
         setIsUserFollowed(isUserFollowedFc());
     }, [review, userData]);
-
-    console.log(userData);
 
     const isUserFollowedFc = (): boolean => {
         return !!userData?.follows?.find(user => user?.username === review?.username);

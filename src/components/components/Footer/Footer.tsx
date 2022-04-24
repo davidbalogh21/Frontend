@@ -43,11 +43,9 @@ const Footer = () => {
 						</FooterLink>
 					</Column>
 					<Column>
-						<Heading>3SS</Heading>
-						<FooterLink href="https://3ready.tv/">Products</FooterLink>
-						<FooterLink href="https://3ready.tv/">Services</FooterLink>
-						<FooterLink href="https://3ready.tv/">Contact</FooterLink>
-						<FooterLink href="https://3ready.tv/">Carrers</FooterLink>
+						<Heading>IMDB</Heading>
+						<FooterLink href="https://www.themoviedb.org/">Website</FooterLink>
+						<FooterLink href="https://developers.themoviedb.org/3/">API</FooterLink>
 					</Column>
 				</Row>
 			</Container>

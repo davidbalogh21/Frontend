@@ -58,7 +58,7 @@ export const PageProfile: React.FC<PagePrivatePropsType> = ({history}) => {
         const getFollowers = async () => {
             if (userData) {
                 const {data} = await axios.get(`http://localhost:5000/api/auth/getFollowedBy?user_id=${userData?._id}`)
-                setFollowers(data.usersWhoFollow);
+                setFollowers(data?.usersWhoFollow);
                 setNumberOfFollowers(data.usersWhoFollow?.length);
             }
         }
@@ -103,8 +103,8 @@ export const PageProfile: React.FC<PagePrivatePropsType> = ({history}) => {
                     <ModalText>
                         <ModalTitle>
                             You are following:
-                        </ModalTitle>{userData?.follows.map(user => (
-                        <ModalLinkToProfile href={`/profiles/${user._id}`}>{user.username}</ModalLinkToProfile>
+                        </ModalTitle>{userData?.follows?.map(user => (
+                        <ModalLinkToProfile href={`/profiles/${user?._id}`}>{user?.username}</ModalLinkToProfile>
                     ))}</ModalText>
                 </Modal>
                 <Modal
@@ -117,8 +117,8 @@ export const PageProfile: React.FC<PagePrivatePropsType> = ({history}) => {
                         <ModalTitle>
                             You are followed by:
                         </ModalTitle>
-                        {followers.map(user => (
-                            <ModalLinkToProfile href={`/profiles/${user._id}`}>{user.username}</ModalLinkToProfile>))}
+                        {followers?.map(user => (
+                            <ModalLinkToProfile href={`/profiles/${user._id}`}>{user?.username}</ModalLinkToProfile>))}
                     </ModalText>
                             </Modal>
                             <InfoTitle>

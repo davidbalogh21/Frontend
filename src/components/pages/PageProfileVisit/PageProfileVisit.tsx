@@ -46,7 +46,7 @@ export const PageProfileVisit: React.FC<PagePrivatePropsType> = ({history, match
         const getFollowers = async () => {
             if (profileData) {
                 const {data} = await axios.get(`http://localhost:5000/api/auth/getFollowedBy?user_id=${profileData?._id}`)
-                setFollowers(data.usersWhoFollow);
+                setFollowers(data?.usersWhoFollow);
                 setNumberOfFollowers(data.usersWhoFollow?.length);
                 setIsUserFollowed(isUserFollowedFc());
             }
@@ -94,8 +94,8 @@ export const PageProfileVisit: React.FC<PagePrivatePropsType> = ({history, match
                     <ModalText>
                         <ModalTitle>
                             {profileData?.username} is following:
-                        </ModalTitle>{userData?.follows.map(user => (
-                        <ModalLinkToProfile href={`/profiles/${user._id}`}>{user.username}</ModalLinkToProfile>
+                        </ModalTitle>{userData?.follows?.map(user => (
+                        <ModalLinkToProfile href={`/profiles/${user?._id}`}>{user?.username}</ModalLinkToProfile>
                     ))}</ModalText>
                 </Modal>
                 <Modal
@@ -108,15 +108,15 @@ export const PageProfileVisit: React.FC<PagePrivatePropsType> = ({history, match
                         <ModalTitle>
                             {profileData?.username} is followed by:
                         </ModalTitle>
-                        {followers.map(user => (
-                            <ModalLinkToProfile href={`/profiles/${user._id}`}>{user.username}</ModalLinkToProfile>))}
+                        {followers?.map(user => (
+                            <ModalLinkToProfile href={`/profiles/${user._id}`}>{user?.username}</ModalLinkToProfile>))}
                     </ModalText>
                 </Modal>
                 <ButtonWrapper>
                 <FollowButtonProfile onClick={onFollowButtonClick} isFollowed={isUserFollowed}>{isUserFollowed ? 'FOLLOWING' : 'FOLLOW'}</FollowButtonProfile>
                 </ButtonWrapper>
             </ProfileDataWrapper>
-            <UserActivity user_id={profileData._id}/>
+            <UserActivity user_id={profileData?._id}/>
         </ProfilePageWrapper>
     )
 };

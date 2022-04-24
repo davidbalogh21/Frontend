@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import {FormInput} from "../pages/PageLogin/PageLogin.css";
 
 export const AccessibilityContainer = styled.div`
   display: flex;
@@ -24,3 +25,7 @@ export const Button = styled.a`
     background-color: #FF1D36;
   }
 `;
+
+export const SearchInput = styled(FormInput)`
+  width: 7rem;
+`
