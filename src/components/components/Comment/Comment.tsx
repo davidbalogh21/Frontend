@@ -69,9 +69,7 @@ export const Comment: React.FC<CommentPropsType> = ({comment, review}) => {
                 {numberOfLikes}
                 <ThumbUpIcon />
             </IconButton>
-            <IconButton onClick={replyHandler}>
-                <ReplyIcon/>
-            </IconButton>
+
         </CommentContainer>
     )
 }

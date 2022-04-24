@@ -24,7 +24,7 @@ export function Navbar() {
 						top: 8,
 						position: 'absolute',
 						margin: 'auto',
-						maxWidth: 500
+						maxWidth: 500,
 					}}
 				/></MiddleSection>
 			<RightSection>

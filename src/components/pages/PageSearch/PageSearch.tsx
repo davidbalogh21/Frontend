@@ -47,9 +47,14 @@ export const PageSearch: React.FC<PageSearchPropsType> = ({history}) => {
             {isLoading ? (
                 <>loading</>
             ) : null}
-            <SearchTitle>
-                Search results for <span>"{searchQuery}"</span>
-            </SearchTitle>
+            {searchResult?.length > 0 ? (
+                <SearchTitle>
+                  Search results for <span>{searchQuery}</span>
+                </SearchTitle>) : (
+                <SearchTitle>
+                    No search results for <span>{searchQuery}</span>. Please try something else!
+                </SearchTitle>
+                )}
             <CardWrapper id="category">
                 {searchResult?.map((movie) => (
                     <Link
