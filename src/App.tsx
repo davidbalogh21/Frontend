@@ -19,6 +19,7 @@ import {PageReview} from "./components/pages/PageReview/PageReview";
 import {AuthProvider} from "./contexts/AuthContext";
 import {PageProfileVisit} from "./components/pages/PageProfileVisit/PageProfileVisit";
 import {PageSearch} from "./components/pages/PageSearch/PageSearch";
+import {PageFeed} from "./components/pages/PageFeed/PageFeed";
 
 function App() {
     return (
@@ -43,6 +44,7 @@ function App() {
                                 <Route path="/static/asset/:movie_id/review/:id" exact component={PageReview}/>
                                 <Route path="/profiles/:id" exact component={PageProfileVisit}/>
                                 <Route path="/search" exact component={PageSearch}/>
+                                <Route path="/feed/:type" exact component={PageFeed}/>
                                 <Route component={PageNotFound}/>
                             </Switch>
                             <Footer/>

@@ -10,7 +10,7 @@ const Footer = () => {
 				textAlign: 'center',
 				marginTop: '-50px',
 			}}>
-				DMDB: The Place Where Everyone Can Find What to Watch Tonight!
+				WeWatch: The Place Where Everyone Can Find What to Watch Tonight!
 			</h1>
 			<Container>
 				<Row>
@@ -43,7 +43,7 @@ const Footer = () => {
 						</FooterLink>
 					</Column>
 					<Column>
-						<Heading>IMDB</Heading>
+						<Heading>TMDB</Heading>
 						<FooterLink href="https://www.themoviedb.org/">Website</FooterLink>
 						<FooterLink href="https://developers.themoviedb.org/3/">API</FooterLink>
 					</Column>

@@ -43,7 +43,7 @@ export const PageLogin: React.FC<PageLoginPropsType> = ({history}) => {
 			const {data} = await axios.post("http://localhost:5000/api/auth/login", { email, password}, config);
 			localStorage.setItem("authToken", data.token);
 			fetchPrivateData();
-			history.push("/profile");
+			window.open("/profile", "_self");
 		} catch (error: any) {
 			setError(error.response.data.error);
 			setTimeout(() => {

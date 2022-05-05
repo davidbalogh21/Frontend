@@ -30,15 +30,15 @@ export const PageCategories: React.FC =() => {
             {genres.map((genre) => (
                 <div>
                 <Link
-                    to={`/static/movies/${genre.name.toLocaleLowerCase()}`}
-                    key={`id_${genre.id}`}
+                    to={`/static/movies/${genre?.id}`}
+                    key={`id_${genre?.id}`}
                     onClick={scrollToTop}
                 >
                     <CategoryButton>
-                    {genre.name}
+                    {genre?.name}
                 </CategoryButton>
                 </Link>
-                    <ItemSlider id={genre.id}/>
+                    <ItemSlider id={genre?.id}/>
                 </div>
             ))}
             </BackgroundContainer>

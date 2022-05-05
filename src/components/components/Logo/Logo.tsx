@@ -9,7 +9,7 @@ export function Logo() {
 				<LogoImg>
 					<img src={MovieLogo} alt="Movie logo"/>
 				</LogoImg>
-				<LogoText>DMDB</LogoText>
+				<LogoText>WeWatch</LogoText>
 			</LogoWrapper>
 		</StyledLink>
 	);

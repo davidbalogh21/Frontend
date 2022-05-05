@@ -44,12 +44,11 @@ export const PageProfileVisit: React.FC<PagePrivatePropsType> = ({history, match
 
     useEffect(() => {
         const getFollowers = async () => {
-            if (profileData) {
-                const {data} = await axios.get(`http://localhost:5000/api/auth/getFollowedBy?user_id=${profileData?._id}`)
-                setFollowers(data?.usersWhoFollow);
+                const {data} = await axios.get(`http://localhost:5000/api/auth/getFollowedBy?user_id=${match.params.id}`)
+                console.log(data);
+            setFollowers(data?.usersWhoFollow);
                 setNumberOfFollowers(data.usersWhoFollow?.length);
                 setIsUserFollowed(isUserFollowedFc());
-            }
         }
         getFollowers();
     }, [profileData, userData]);
@@ -94,7 +93,7 @@ export const PageProfileVisit: React.FC<PagePrivatePropsType> = ({history, match
                     <ModalText>
                         <ModalTitle>
                             {profileData?.username} is following:
-                        </ModalTitle>{userData?.follows?.map(user => (
+                        </ModalTitle>{profileData?.follows?.map(user => (
                         <ModalLinkToProfile href={`/profiles/${user?._id}`}>{user?.username}</ModalLinkToProfile>
                     ))}</ModalText>
                 </Modal>

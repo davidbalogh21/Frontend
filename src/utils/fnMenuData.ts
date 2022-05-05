@@ -3,9 +3,9 @@ import { RouteInfo } from '../types/AssetTypes';
 export function getMenuData(): RouteInfo[] {
 	return ([
 		{
-			'id': 'menu-home',
-			'label': 'Home',
-			'route': '/',
+			'id': 'menu-feed',
+			'label': 'Feed',
+			'route': '/feed/trending',
 		},
 		{
 			'id': 'menu-categories',

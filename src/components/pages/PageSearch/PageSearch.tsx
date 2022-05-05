@@ -3,7 +3,6 @@ import {History} from "history";
 import {SearchTitle} from "./PageSearch.css";
 import axios from "axios";
 import {MovieAssetType} from "../../../types/AssetTypes";
-import {Title} from "../PageAssetDetails/PageAssetDetails.css";
 import {Card, CardWrapper} from "../../styles/GridStyles.css";
 import {Link} from "react-router-dom";
 import {scrollToTop} from "../../../utils/fnScroll";
@@ -15,14 +14,13 @@ type PageSearchPropsType = {
 };
 
 export const PageSearch: React.FC<PageSearchPropsType> = ({history}) => {
-    const searchQuery = history.location.search.substring(history.location.search.indexOf('=') + 1);
+    const searchQuery = history.location.search.substring(history.location.search.indexOf('=') + 1).replaceAll('%20', ' ');
     const [isLoading, setIsLoading] = useState(true);
     const [searchResult, setSearchResult] = useState<MovieAssetType[]>([]);
     const [pageNum, setPageNum] = useState<number>(1);
 
     const fetchSearchData = async () => {
         const {data} =  await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=593c4bf64054350abc1378cb7718693e&query=${searchQuery}&page=${pageNum}`);
-        console.log(data);
         setSearchResult([...searchResult, ...data?.results]);
         setIsLoading(false);
     };
@@ -39,8 +37,6 @@ export const PageSearch: React.FC<PageSearchPropsType> = ({history}) => {
     useEffect(() => {
         fetchSearchData();
     }, [pageNum]);
-
-    console.log("searchResult", searchResult);
 
     return (
         <div>
