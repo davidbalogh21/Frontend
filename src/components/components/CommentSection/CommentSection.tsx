@@ -2,7 +2,7 @@ import React, {useContext, useRef, useState} from 'react'
 import {
     CommentButton,
     CommentContainer,
-    CommentDate, CommentForm, CommentInputWrapper, CommentSectionContainer,
+    CommentDate, CommentForm, CommentInput, CommentInputWrapper, CommentSectionContainer,
     CommentText,
     CommentUser,
     EmptyCommentText
@@ -28,10 +28,10 @@ export const CommentSection: React.FC<CommentSectionPropsType> = ({review, match
     const userData = useContext(AuthContext);
     const [formComment, setFormComment] = useState<string>('');
     const replyRef = useRef(null);
-    console.log(userData);
 
     const commentHandler = async (e: any) => {
         e.preventDefault();
+        e.stopPropagation();
         const config = {
             headers: {
                 "Content-Type": "application/json"
@@ -60,11 +60,13 @@ export const CommentSection: React.FC<CommentSectionPropsType> = ({review, match
             )) : <EmptyCommentText>No comments yet! Be the first to add a comment!</EmptyCommentText>}
             <CommentForm onSubmit={commentHandler}>
                 <InputWrapper>
-                    <CommentInputWrapper
-                        type={"text"} required id={"formComment"} ref={replyRef} placeholder={userData ? "Add your comment here..." : "YOU HAVE TO BE LOGGED IN TO CONTINUE!"} value={formComment}
-                        onChange={(e) => setFormComment(e.target.value)}
+                    <CommentInputWrapper isDisabled={!userData.username}>
+                    <CommentInput
+                        type={"text"} required id={"formComment"} ref={replyRef} placeholder={userData.username ? "Add your comment here..." : "YOU HAVE TO BE LOGGED IN TO CONTINUE!"} value={formComment}
+                        onChange={(e) => setFormComment(e.target.value)} isDisabled={!userData.username}
                     />
-                    <CommentButton type={'submit'} notLoggedIn={!userData}>SUBMIT</CommentButton>
+                    <CommentButton type={'submit'} notLoggedIn={!userData.username}>SUBMIT</CommentButton>
+                    </CommentInputWrapper>
                 </InputWrapper>
             </CommentForm>
         </CommentSectionContainer>

@@ -2,20 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
 import {History} from "history";
 import {ReviewType, UserDetailsType} from "../../../types/AssetTypes";
-import {
-    FollowData,
-    ModalLinkToProfile, ModalText, ModalTitle,
-    ProfileDataWrapper, ProfileFollowers, ProfilePageWrapper,
-    ProfilePicture,
-    ProfilePictureWrapper,
-    ProfileTitle
-} from "../PageProfile/PageProfile.css";
-import MovieLogo from "../../../assets/images/logo.png";
-import {UserActivity} from "../../components/UserActivity/UserActivity";
-import {AuthContext} from "../../../contexts/AuthContext";
-import Modal from '@mui/material/Modal';
-import {config} from "../../../utils/AxiosConfig";
-import {ReviewLink} from "../../components/ReviewList/ReviewList.css";
+import {EmptyFeedMessage, ReviewLink} from "../../components/ReviewList/ReviewList.css";
 import {scrollToTop} from "../../../utils/fnScroll";
 import {
     ActivityWrapper,
@@ -28,7 +15,16 @@ import {
 import {PosterPhoto} from "../../components/PosterPhoto/PosterPhoto";
 import Rating from "@mui/material/Rating";
 import {AiOutlineComment, AiOutlineLike} from "react-icons/ai";
-import {FeedWrapper, LeftFeedSelection, RightFeedSelection, SelectFeedWrapper, UserWrapper} from "./PageFeed.css";
+import {
+    FeedWrapper,
+    LeftFeedSelection,
+    MiddleFeedSelection,
+    RightFeedSelection,
+    SelectFeedWrapper,
+    UserWrapper
+} from "./PageFeed.css";
+import {RecommendationFeed} from "../../components/RecommendationFeed/RecommendationFeed";
+import {Spinner} from "../../components/Spinner/Spinner";
 
 type PagePrivatePropsType = {
     history: History,
@@ -40,6 +36,9 @@ type PagePrivatePropsType = {
 export const PageFeed: React.FC<PagePrivatePropsType> = ({history, match}) => {
     const [reviews, setReviews] = useState<ReviewType[]>([]);
     const [isFollowFeed, setIsFollowFeed] = useState<boolean>(match.params.type === 'following');
+    const [isRecommendation, setIsRecommendation] = useState<boolean>(match.params.type === 'recommendations');
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
 
     useEffect(() => {
         if (!localStorage.getItem("authToken")) {
@@ -55,6 +54,7 @@ export const PageFeed: React.FC<PagePrivatePropsType> = ({history, match}) => {
             }
             const {data} = await axios.get(`http://localhost:5000/api/review/${isFollowFeed ? 'getFeed' : 'getTrendingFeed'}`, config);
             setReviews(data?.feedReviews);
+            setIsLoading(false);
         }
         getFeed();
     }, []);
@@ -67,16 +67,26 @@ export const PageFeed: React.FC<PagePrivatePropsType> = ({history, match}) => {
         window.open("/feed/trending", "_self");
     }
 
+    const onRecommendationsClick = () => {
+        window.open("/feed/recommendations", "_self");
+    }
+
 
     return (
         <>
+            <Spinner isLoading={isLoading}/>
             <SelectFeedWrapper>
                 <LeftFeedSelection onClick={onFollowingClick} isActive={isFollowFeed}>following</LeftFeedSelection>
-                <RightFeedSelection onClick={onTrendingClick} isActive={!isFollowFeed}>trending</RightFeedSelection>
+                <MiddleFeedSelection onClick={onRecommendationsClick} isActive={isRecommendation}>Recommendations</MiddleFeedSelection>
+                <RightFeedSelection onClick={onTrendingClick} isActive={!isFollowFeed && !isRecommendation}>trending</RightFeedSelection>
             </SelectFeedWrapper>
-    <ProfilePageWrapper>
-    <FeedWrapper>
-                {reviews?.map((review) =>
+        {!isRecommendation ? (
+            <FeedWrapper>
+                {reviews?.length < 1 ? (
+                    <EmptyFeedMessage>
+                        Oops! Looks like your feed is empty! Start by following another user or by checking out the <a href={'/feed/trending'}>Trending</a> page!
+                    </EmptyFeedMessage>
+                ) : reviews?.map((review) =>
                     (
                         <ReviewLink to={`/static/asset/${review?.movie_id}/review/${review?._id}`}
                                     onClick={scrollToTop}>
@@ -107,7 +117,7 @@ export const PageFeed: React.FC<PagePrivatePropsType> = ({history, match}) => {
                     )
                 )}
             </FeedWrapper>
-        </ProfilePageWrapper>
+        ) : (<RecommendationFeed history={history}/>)}
         </>
     )
 };

@@ -53,6 +53,7 @@ export const PageSearch: React.FC<PageSearchPropsType> = ({history}) => {
                 )}
             <CardWrapper id="category">
                 {searchResult?.map((movie) => (
+                    movie?.poster_path && (
                     <Link
                         to={`/static/asset/${movie.id}`}
                         style={{ textDecoration: 'none' }}
@@ -77,7 +78,7 @@ export const PageSearch: React.FC<PageSearchPropsType> = ({history}) => {
                             </h3>
                         </Card>
                     </Link>
-                ))}
+                    )))}
             </CardWrapper>
         </div>
 

@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import "react-multi-carousel/lib/styles.css";
 import {MovieCarousel} from "./ItemSlider.css";
 import {Link} from "react-router-dom";
 import {Card} from "../../styles/GridStyles.css";
 import RatingColor from "../../../utils/fnRatingColor";
 import GradeRoundedIcon from "@material-ui/icons/GradeRounded";
-import {RouteComponentProps} from "react-router";
+import {useLoading} from "../../../contexts/PageCategoriesLoadingContext";
+import {scrollToTop} from "../../../utils/fnScroll";
 
 type TParams = { id: number }
 
@@ -42,6 +43,7 @@ export const ItemSlider: React.FC<TParams> = ({id}) => {
 
     const [isLoading, setIsLoading] = useState(true);
     const [currentCategory, setCurrentCategory] = useState<CategoryInfo[]>([]);
+    const {setLoading} = useLoading();
 
     useEffect(() => {
         const fetchCategory = async () => {
@@ -50,7 +52,9 @@ export const ItemSlider: React.FC<TParams> = ({id}) => {
             );
             const category = await data.json();
             setCurrentCategory([...currentCategory, ...category?.results]);
-            setIsLoading(false);
+            setTimeout(()=>{
+                setLoading(false);
+            }, 1250)
         };
         fetchCategory();
     }, []);
@@ -61,6 +65,7 @@ export const ItemSlider: React.FC<TParams> = ({id}) => {
                     to={`/static/asset/${movie.id}`}
                     style={{ textDecoration: 'none' }}
                     key={`id_${movie.title}`}
+                    onClick={scrollToTop}
                 >
                     <Card>
                         <img

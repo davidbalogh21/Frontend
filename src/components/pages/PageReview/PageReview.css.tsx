@@ -2,6 +2,7 @@ import styled, {css} from "styled-components";
 import {Form, FormButton} from "../PageLogin/PageLogin.css";
 import {FormInput, InputWrapper} from '../PageLogin/PageLogin.css'
 import { Button } from "../../styles/AccessibilityStyles.css"
+import IconButton from "@mui/material/IconButton";
 
 export const PageWrapper = styled.div`
   margin: 2rem;
@@ -90,6 +91,31 @@ export const CommentContainer = styled.div`
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2);
   padding: 1rem;
   background: #e8e6e6;
+  position: relative;
+`
+
+export const CommentSentiment = styled.div<{isNegative: boolean}>`
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: #ddd;
+  border: ${(props) => props.isNegative ? '#FF1D36' : 'green'} 2px solid ;
+  color: black;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 16px;
+`
+
+export const NegativeCommentLayer = styled.div`
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 `
 
 export const CommentUser = styled.div`
@@ -122,8 +148,18 @@ export const CommentForm = styled(Form)`
   width: 100%;
 `
 
-export const CommentInputWrapper = styled(FormInput)`
+export const CommentInputWrapper = styled.div<{isDisabled: boolean;}>`
+  display: inline;
+  ${props => props.isDisabled && css`
+    cursor: not-allowed;
+  `}
+`
+
+export const CommentInput = styled(FormInput)<{isDisabled: boolean;}>`
   width: 92%;
+  ${props => props.isDisabled && css`
+    pointer-events: none;
+  `}
 `
 
 export const EmptyCommentText = styled.div`
@@ -135,7 +171,7 @@ export const CommentButton = styled(FormButton)<{ notLoggedIn: boolean }>`
   width: 8%;
 
   ${(props) => props.notLoggedIn && css`
-    cursor: not-allowed;
+    pointer-events: none;
   `}
 `
 
@@ -170,4 +206,11 @@ export const FollowButton = styled.button<{ isFollowed: boolean }>`
     background-color: ${(props) => !props.isFollowed ? '#FF1D36' : 'white'};
     color: ${(props) => !props.isFollowed ? 'white' : '#222'};
   }
+`
+
+
+export const LikeIconButton = styled(IconButton)<{isDisabled: boolean}>`
+  ${props => props.isDisabled && css`
+      pointer-events: none;
+  `}
 `

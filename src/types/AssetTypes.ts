@@ -14,6 +14,7 @@ export type PopularInfo = {
 	poster_path: string;
 	vote_average: number;
 	backdrop_path: string;
+	media_type: string;
 }
 
 export type GenreTypes = {
@@ -91,4 +92,5 @@ export type CommentType = {
 	description: string;
 	date: Date;
 	likes: UserDetailsType[];
+	sentimentScore: number;
 }

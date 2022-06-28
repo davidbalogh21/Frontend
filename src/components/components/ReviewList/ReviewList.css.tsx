@@ -24,7 +24,7 @@ export const ReviewTitle = styled.p`
 
 export const ReviewUser = styled.p`
   text-align: center;
-    margin-top: -1rem;
+  margin-top: -1rem;
   margin-left: 1rem;
 `
 
@@ -57,4 +57,20 @@ export const AddReviewButton = styled(FormButton)`
   display: inline;
   margin-left: 1rem;
   padding: 0.5rem 1rem;
+`
+
+export const EmptyFeedMessage = styled.div`
+  margin-top: 10rem;
+  width: 100%;
+  height: 83vh;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.4rem;
+  text-align: left;
+
+  a {
+    color: #FF1D36;
+    display: inline;
+  }
 `

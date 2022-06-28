@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import {
     ActivityTitle,
-    ActivityWrapper, IconContainer,
+    ActivityWrapper, EmptyMessage, IconContainer,
     ReviewCardDate,
     ReviewCardRatingText,
     ReviewCardTitle,
@@ -20,10 +20,12 @@ import {AiOutlineLike, AiOutlineComment} from 'react-icons/ai';
 
 type UserActivityPropsType = {
     user_id: string;
+    username?: string
 }
 
-export const UserActivity: React.FC<UserActivityPropsType> = ({user_id}) => {
-    const [userReviews, setUserReviews] = useState<ReviewType[]>();
+export const UserActivity: React.FC<UserActivityPropsType> = ({user_id, username}) => {
+    const [userReviews, setUserReviews] = useState<ReviewType[]>([]);
+    const [likedReviews, setLikedReviews] = useState<ReviewType[]>([]);
 
     const getReviewsByUser = async () => {
         const config = {
@@ -39,19 +41,38 @@ export const UserActivity: React.FC<UserActivityPropsType> = ({user_id}) => {
         }
     };
 
+    const getLikedReviewsByUser = async () => {
+        const config = {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${localStorage.getItem("authToken")}`
+            }
+        }
+
+        try {
+            if (username) {
+                const {data} = await axios.post('http://localhost:5000/api/review/getLikedReviewsByOtherUser', {username: username});
+                setLikedReviews(data?.reviewsLikedByUser);
+            }
+            else {
+                const {data} = await axios.get('http://localhost:5000/api/review/getLikedReviews', config);
+                setLikedReviews(data?.reviewsLikedByUser);
+            }
+        } catch (e) {
+            localStorage.removeItem("authToken");
+        }
+    };
 
     useEffect(() => {
         getReviewsByUser().then(r => {
         });
+        getLikedReviewsByUser().then(r=> {});
     }, [user_id]);
 
-    return (
-        <>
-            <ActivityTitle>
-                My reviews:
-            </ActivityTitle>
+    const getActivity = (reviews: ReviewType[]) => {
+        return (
             <ActivityWrapper>
-                {userReviews?.map((review) =>
+                {!reviews?.length ? <EmptyMessage>No data to be shown here!</EmptyMessage> : reviews?.map((review) =>
                     (
                         <ReviewLink to={`/static/asset/${review?.movie_id}/review/${review?._id}`}
                                     onClick={scrollToTop}>
@@ -72,7 +93,7 @@ export const UserActivity: React.FC<UserActivityPropsType> = ({user_id}) => {
                                                 precision={0.5} size={"small"}/>
                                     </ReviewRatingContainer>
                                     <IconContainer>
-                                    <AiOutlineLike/> <span>{review?.likes?.length} likes</span>
+                                        <AiOutlineLike/> <span>{review?.likes?.length} likes</span>
                                     </IconContainer>
                                     <IconContainer><AiOutlineComment/><span> {review?.comments?.length} comments</span>
                                     </IconContainer>
@@ -81,7 +102,22 @@ export const UserActivity: React.FC<UserActivityPropsType> = ({user_id}) => {
                         </ReviewLink>
                     )
                 )}
+
             </ActivityWrapper>
+        )
+    }
+
+    return (
+        <>
+            <ActivityTitle>
+                { username ? `${username}'s` : 'My'} reviews:
+            </ActivityTitle>
+            {getActivity(userReviews)}
+
+            <ActivityTitle>
+                Reviews { username ? `${username}` : 'I'} liked:
+            </ActivityTitle>
+            {getActivity(likedReviews)}
         </>
     )
 };

@@ -46,3 +46,8 @@ export const ReviewRatingContainer = styled.div`
 export const IconContainer = styled.div`
   margin-left: 1rem;
 `
+
+export const EmptyMessage = styled.div`
+  text-align: center;
+  font-size: 1.6rem;
+`

@@ -3,7 +3,7 @@ import {Form, FormLinkText, FormTitle} from "../PageLogin/PageLogin.css";
 import Rating from '@mui/material/Rating';
 
 export const PageWrapper = styled.div`
-	margin: 2rem;
+  margin: 2rem;
 `
 
 export const Poster = styled.img`
@@ -33,7 +33,7 @@ export const ReviewForm = styled(Form)`
 `
 
 export const ReviewFormDescription = styled.textarea`
-  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI",serif;
+  font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", serif;
   text-align: left;
   width: 100%;
   padding: 0.7rem;
@@ -60,11 +60,16 @@ export const ReviewFormDescription = styled.textarea`
 export const ReviewFormTitle = styled(FormTitle)`
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+
+  a {
+    text-decoration: none;
+    color: dimgrey;
+  }
 `;
 
 export const ReviewMovieTagline = styled(FormLinkText)`
   text-align: center;
-  
+
   &:first-of-type {
     margin-bottom: 1.5rem;
   }

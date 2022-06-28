@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useRef, useState} from 'react';
 import {
     CommentButton,
-    CommentContainer, CommentDate, CommentForm, CommentInputWrapper, CommentSectionContainer, CommentText,
-    CommentTitle, CommentUser, EmptyCommentText, FollowButton, LikeContainer, LikeNumber,
+    CommentContainer, CommentDate, CommentForm, CommentInput, CommentSectionContainer, CommentText,
+    CommentTitle, CommentUser, EmptyCommentText, FollowButton, LikeContainer, LikeIconButton, LikeNumber,
     PageWrapper,
     Poster, RatingContainer, ReviewContainer, ReviewText, ReviewTitle, ReviewUser,
     ReviewWrapper
@@ -18,6 +18,7 @@ import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import IconButton from '@mui/material/IconButton';
 import {CommentSection} from "../../components/CommentSection/CommentSection";
 import {AuthContext} from "../../../contexts/AuthContext";
+import {Spinner} from "../../components/Spinner/Spinner";
 
 type PageReviewPropsType = {
     history: History,
@@ -35,6 +36,8 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
     const [isReviewLiked, setIsReviewLiked] = useState(false);
     const [numberOfLikes, setNumberOfLikes] = useState<number>();
     const [isUserFollowed, setIsUserFollowed] = useState<boolean>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
     const replyRef = useRef(null);
     const userData = useContext(AuthContext);
     let rating;
@@ -59,7 +62,10 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
         } else {
             setNumberOfLikes(review?.likes?.length + 1)
         }
-        await axios.post("http://localhost:5000/api/review/likeReview", {user_id: userData?._id, review_id: review?._id}, config);
+        await axios.post("http://localhost:5000/api/review/likeReview", {
+            user_id: userData?._id,
+            review_id: review?._id
+        }, config);
     }
 
     const didUserLikeReview = (review: ReviewType, userSearch: UserDetailsType): boolean => {
@@ -67,11 +73,16 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
     }
 
     useEffect(() => {
-        fetchMovie().then(()=>{});
-        fetchReview().then(()=>{});
+        fetchMovie().then(() => {
+        });
+        fetchReview().then(() => {
+        });
+        setTimeout(()=>{
+            setIsLoading(false);
+        }, 250);
     }, []);
 
-    useEffect(()=>{
+    useEffect(() => {
         if (review) {
             setNumberOfLikes(review?.likes?.length);
             setIsReviewLiked(didUserLikeReview(review, userData));
@@ -85,45 +96,56 @@ export const PageReview: React.FC<PageReviewPropsType> = ({history, match}) => {
 
     const onFollowButtonClick = async () => {
         setIsUserFollowed(!isUserFollowed);
-        await axios.post("http://localhost:5000/api/auth/followUser", {user_id: userData?._id, follow_id: review?.user_id}, config);
+        await axios.post("http://localhost:5000/api/auth/followUser", {
+            user_id: userData?._id,
+            follow_id: review?.user_id
+        }, config);
     }
 
     // @ts-ignore
-    return <PageWrapper>
-        <ReviewWrapper>
-            <Poster
-                src={`https://www.themoviedb.org/t/p/original/${movie?.poster_path}`}
-            />
-            <ReviewContainer>
-                <ReviewFormTitle>
-                    {movie?.original_title}
-                </ReviewFormTitle>
-                <ReviewMovieTagline>
-                    {movie?.tagline}
-                </ReviewMovieTagline>
+    return (
+        <>
+            <Spinner isLoading={isLoading}/>
+            <PageWrapper>
+                <ReviewWrapper>
+                    <Poster
+                        src={`https://www.themoviedb.org/t/p/original/${movie?.poster_path}`}
+                    />
+                    <ReviewContainer>
+                        <ReviewFormTitle>
+                            <a href={`/static/asset/${movie?.id}`}>{movie?.original_title}</a>
+                        </ReviewFormTitle>
+                        <ReviewMovieTagline>
+                            {movie?.tagline}
+                        </ReviewMovieTagline>
 
-                <ReviewTitle>
-                    {review?.title ?? 'Placeholder title'}
-                </ReviewTitle>
-                <ReviewUser>
-                    by <a href={`/profiles/${review?.user_id}`}>{review?.username ?? 'unknown user'}</a> on {new Date(review?.date).toLocaleDateString()}
-                    <FollowButton onClick={onFollowButtonClick} isFollowed={isUserFollowed}>{isUserFollowed ? 'following' : 'follow'}</FollowButton>
-                </ReviewUser>
-                <ReviewText>
-                    {review?.description}
-                </ReviewText>
-                <RatingContainer>
-                <Rating name="read-only" value={review?.rating ?? 7} readOnly max={10} precision={0.5}/>
-                </RatingContainer>
-                <IconButton onClick={() => likeHandlerReview(review)} color={isReviewLiked ? 'primary' : 'default'}>
-                    {numberOfLikes}
-                    <ThumbUpIcon />
-                </IconButton>
-            </ReviewContainer>
-        </ReviewWrapper>
-        <CommentTitle>
-            Comments:
-        </CommentTitle>
-        <CommentSection review={review} match={match}/>
-    </PageWrapper>
+                        <ReviewTitle>
+                            {review?.title ?? 'Placeholder title'}
+                        </ReviewTitle>
+                        <ReviewUser>
+                            by <a
+                            href={`/profiles/${review?.user_id}`}>{review?.username ?? 'unknown user'}</a> on {new Date(review?.date).toLocaleDateString()}
+                            {!!userData.username && <FollowButton onClick={onFollowButtonClick}
+                                                                  isFollowed={isUserFollowed}>{isUserFollowed ? 'following' : 'follow'}</FollowButton>}
+                        </ReviewUser>
+                        <ReviewText>
+                            {review?.description}
+                        </ReviewText>
+                        <RatingContainer>
+                            <Rating name="read-only" value={review?.rating ?? 7} readOnly max={10} precision={0.5}/>
+                        </RatingContainer>
+                        <LikeIconButton onClick={() => likeHandlerReview(review)}
+                                        color={isReviewLiked ? 'primary' : 'default'} isDisabled={!userData.username}
+                                        title={'You must be logged in to like!'}>
+                            {numberOfLikes}
+                            <ThumbUpIcon/>
+                        </LikeIconButton>
+                    </ReviewContainer>
+                </ReviewWrapper>
+                <CommentTitle>
+                    Comments:
+                </CommentTitle>
+                <CommentSection review={review} match={match}/>
+            </PageWrapper>
+        </>)
 };

@@ -6,6 +6,7 @@ import { Title } from '../PageAssetDetails/PageAssetDetails.css';
 import { RouteComponentProps } from 'react-router';
 import RatingColor from '../../../utils/fnRatingColor';
 import {scrollToTop} from "../../../utils/fnScroll";
+import {Spinner} from "../../components/Spinner/Spinner";
 
 type TParams = { id: string, name: string }
 
@@ -47,9 +48,7 @@ function PageAssets({ match }: RouteComponentProps<TParams>) {
 
 	return (
 		<div>
-			{isLoading ? (
-				<>loading</>
-			) : null}
+			<Spinner isLoading={isLoading}/>
 			<Title>{match.params.name}</Title>
 			<CardWrapper id="category">
 				{currentCategory.map((movie) => (

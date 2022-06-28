@@ -61,6 +61,12 @@ export const LeftFeedSelection = styled.p<{isActive?: boolean}>`
   }
 `
 
+export const MiddleFeedSelection = styled(LeftFeedSelection)`
+  &:after {
+    width: 15rem;
+  }
+`
+
 export const RightFeedSelection = styled(LeftFeedSelection)`
   
   &:after {

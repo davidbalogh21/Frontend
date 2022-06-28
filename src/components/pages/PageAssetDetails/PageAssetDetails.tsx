@@ -17,6 +17,7 @@ import {
 	Title,
 } from './PageAssetDetails.css';
 import {ReviewList} from "../../components/ReviewList/ReviewList";
+import {Spinner} from "../../components/Spinner/Spinner";
 
 type TParams = { id: string };
 
@@ -24,7 +25,7 @@ function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
 	const [movie, setMovie] = useState<MovieAssetType>(Object);
 	const [cast, setCast] = useState<ActorInfo[]>([]);
 	const [companies, setCompanies] = useState<CompanyInfo[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
+	const [isLoading, setIsLoading] = useState<boolean>(true);
 	const [video, setVideo] = useState<VideoInfo[]>([]);
 	const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
@@ -43,16 +44,17 @@ function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
 			setVideo(videoJson?.results);
 			setCast(castJson?.cast);
 			setCompanies(movie?.production_companies);
-			setLoading(false);
+
+			setTimeout(()=>{
+				setIsLoading(false);
+			}, 250);
 		};
 		fetchMovies();
 	}, []);
 
 	return (
 		<>
-			{loading ? (
-				<>loading</>
-			) : (
+			<Spinner isLoading={isLoading}/>
 				<PageWrapper>
 					<Box>
 						<Poster
@@ -81,7 +83,7 @@ function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
 
 							<ReviewButton>
 								<ButtonLink href={`/static/asset/${match.params.id}/review`}>
-									Add review
+									ADD REVIEW
 								</ButtonLink>
 							</ReviewButton>
 							<Modal
@@ -130,7 +132,7 @@ function PageAssetDetails({ match }: RouteComponentProps<TParams>) {
 					<ImportantText>Reviews: </ImportantText>
 
 					<ReviewList movie_id={match.params.id}/>
-				</PageWrapper>)}
+				</PageWrapper>
 			</>
 	);
 }
